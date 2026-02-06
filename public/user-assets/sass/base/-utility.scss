@@ -1,0 +1,43 @@
+.cursor-pointer{
+    cursor: pointer;
+}
+.hover-bg{
+    padding: 7px 3px;
+    cursor: pointer;
+    &:hover{
+        background: rgba($primary, 0.1);
+    }
+}
+.hover-sky{
+    padding: 7px 3px;
+    cursor: pointer;
+    &:hover{
+        background-color: rgba(#20C9AC,0.1);
+    }
+}
+.hover-primary{
+    padding: 7px 3px;
+    cursor: pointer;
+    &:hover{
+        background-color: rgba(#C92085,0.1);
+    }
+} 
+
+.no-decoration{
+    text-decoration: none;
+    &:hover{
+        color: $primary !important;
+        svg path{
+            fill: $primary !important;
+        }
+    }
+}
+.no-decoration-sky{
+    text-decoration: none;
+    &:hover{
+        color: #20C9AC !important;
+        svg path{
+            fill: #20C9AC !important;
+        }
+    }
+}

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap5 -->
+    <link rel="stylesheet" href="assets/bootstrap5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+
+    <!-- manrop fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <!-- css -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <title>SignIn - Blushed</title>
+</head>
+
+<body>
+    <div class="sign__frame">
+        <div class="sign__frame-left">
+            <img src="assets/images/sign-img.png" alt="">
+            <div class="sign__frame-left--logo">
+                <h1>Blushed</h1>
+            </div>
+        </div>
+        <div class="sign__frame-right">
+            <div class="sign__frame-right--logo">
+                <img src="assets/images/logo-black.png" alt="">
+            </div>
+            <form class="sign__frame-right--form">
+
+                <h1 class="f-36 w-600">
+                    Sign in
+                </h1>
+                <div class="d-flex align-items-center mb-4">
+                    <p class="mb-0 pb-0 f-14 w-500 me-2">
+                        New user?
+                    </p>
+                    <a href="sign-up.html" class="p-0 m-0 f-14 w-600 sign-link">Create an acount </a>
+                </div>
+                <!-- <div class="form-floating w-100 mb-4">
+                    <select class="form-select w-100 sign-input px-2 " id="floatingSelect"
+                        aria-label="Floating label select example">
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                    <label for="floatingSelect sign-label">Select Role</label>
+                </div> -->
+
+
+                <div class="form-floating mb-4 w-100">
+                    <input type="email" class="form-control sign-input" id="floatingInput"
+                        placeholder="name@example.com">
+                    <label for="floatingInput sign-label">Email address</label>
+                </div>
+                <div class="form-floating w-100 mb-5">
+                    <input type="password" class="form-control sign-input" id="id_password" placeholder="Password">
+                    <i class="far fa-eye" id="togglePassword"></i>
+                    <label for="floatingPassword sign-label">Password</label>
+                </div>
+                <div class="d-flex w-100 align-items-center justify-content-between">
+                    <div>
+                        <a href="forget-password.html" class="p-0 m-0 f-14 w-600 sign-link">Forgot password?</a>
+                    </div>
+                    <div>
+                        <button class="sign-btn">Sign In</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Jquery -->
+    <script src="assets/Js/jquery.js"></script>
+    <!-- Popper -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"
+        integrity="sha512-nnzkI2u2Dy6HMnzMIkh7CPd1KX445z38XIu4jG1jGw7x5tSL3VBjE44dY4ihMU1ijAQV930SPM12cCFrB18sVw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- bootstrap5 -->
+    <script src="assets/bootstrap5/js/bootstrap.min.js"></script>
+    <script>
+        // Login
+        const togglePassword = document.querySelector('#togglePassword');
+        const password = document.querySelector('#id_password');
+
+        togglePassword.addEventListener('click', function (e) {
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            this.classList.toggle('fa-eye-slash');
+        });
+    </script>
+</body>
+
+</html>

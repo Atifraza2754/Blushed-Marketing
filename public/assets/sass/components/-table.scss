@@ -1,0 +1,420 @@
+.dashboard-table {
+  min-width: 700px;
+  thead {
+    tr {
+      th {
+        color: var(--fill-dark-dark-2, #84818a);
+        font-feature-settings: "clig" off, "liga" off;
+        font-family: Manrope;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 18px; /* 150% */
+        text-transform: uppercase;
+        border-bottom: 1px solid #ebeaed !important;
+      }
+    }
+  }
+  tbody {
+    tr {
+      vertical-align: middle;
+
+      td {
+        height: 62px !important;
+        p {
+          color: var(--fill-dark-main-dark, #2e2c34);
+          /* Regular Text / 14px / Semibold */
+          font-family: Manrope;
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 600;
+        }
+        .bi-star-fill,
+        .bi-star {
+          color: #ffd235 !important;
+        }
+      }
+    }
+  }
+}
+
+
+.table-action {
+  svg {
+    path {
+      fill: #84818a;
+      &:hover {
+        fill: $primary !important;
+      }
+    }
+  }
+}
+.page-link {
+  border: none !important;
+  color: var(--fill-dark-dark-2, #84818a);
+  text-align: center;
+  font-feature-settings: "clig" off, "liga" off;
+
+  /* Regular Text / 12px / Semibold */
+  font-family: Manrope;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 18px; /* 150% */
+}
+.active-page-link {
+  border-radius: 4px;
+  background: rgba(205, 127, 175, 0.1);
+  color: #cd7faf;
+  text-align: center;
+  font-feature-settings: "clig" off, "liga" off;
+
+  /* Regular Text / 12px / Semibold */
+  font-family: Manrope;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 18px; /* 150% */
+}
+.page-link:focus,
+.page-link:hover,
+.page-link:active {
+  outline: none !important;
+  border-radius: 4px;
+  background: rgba(205, 127, 175, 0.1) !important;
+  color: #cd7faf !important;
+  box-shadow: none !important;
+}
+
+// ====================================================child row table
+/* Style for the child row (hidden by default) */
+.dashboard-table-lg{
+  min-width: 1300px !important;
+}
+.parent-row{
+  background-color: white !important;
+}
+.child-row {
+  display: none;
+  background-color: white;
+  min-height: 300px !important;
+  width: 100%;
+  tr,
+  td {
+    width: 100%;
+    padding: 20px 30px !important;
+  }
+}
+
+/* Style for the button to toggle the child row */
+.toggle-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+.designer {
+  display: flex;
+  padding: 6px 8px 6px 8px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  background: rgba(85, 66, 246, 0.1);
+
+  color: #cd7faf;
+  font-family: Manrope;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 18px; /* 150% */
+}
+.researcher {
+  display: flex;
+  padding: 6px 8px 6px 8px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  background: rgba(0, 165, 255, 0.1);
+
+  color: #00a5ff;
+  font-family: Manrope;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 18px; /* 150% */
+}
+.text-perfect{
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 20px; /* 142.857% */
+  color: #00DC23;
+}
+.status-available,
+.status-on-shift,
+.status-terminated {
+  color: var(--fill-dark-main-dark, #2e2c34);
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: Manrope;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px; /* 142.857% */
+  position: relative;
+  padding-left: 25px;
+  color: #14b13b;
+  &::before {
+    content: " ";
+    position: absolute;
+    top: 0;
+    left: 0px;
+    width: 17px;
+    height: 17px;
+    border-radius: 27px;
+    background: #14b13b;
+  }
+}
+.status-on-shift{
+  color:#B4B4B4 ;
+  &::before {
+    background: #B4B4B4 !important;
+  }
+}
+.status-terminated{
+  color:#FF4747 ;
+  &::before {
+    background: #FF4747 !important;
+  }
+}
+.table-responsive {
+  // overflow: unset !important;
+  overflow-x: auto !important;
+  // @media only screen and (max-width:991px){
+  //   overflow-x: auto !important;
+  // }
+  &::-webkit-scrollbar {
+    height: 10px;
+  }
+ 
+   
+  &::-webkit-scrollbar-thumb {
+    background-color: rgb(201, 192, 192);
+    border-radius: 10px;
+  }
+}
+
+
+// accepted
+.accepted-shift {
+  border-radius: 4px;
+  background: rgba(32, 201, 172, 0.1);
+  padding: 5px 10px;
+  width: 138px;
+  .accepted-status-tag {
+    display: inline-flex;
+    padding: 3px 8px;
+    flex-direction: column;
+    align-items: flex-start;
+    border-radius: 4px;
+    background: #fff;
+    color: #2e2c34;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    padding: 4px 14px;
+    line-height: 18px; /* 150% */
+    position: relative;
+    &::before {
+      content: " ";
+      position: absolute;
+      top: 10px;
+      left: 5px;
+      width: 4px;
+      height: 4px;
+      border-radius: 1px;
+      background: #20c9ac;
+    }
+  }
+  .accepted-shift-line {
+    margin: 0px !important;
+    margin-bottom: 20px !important;
+    border: 2px solid #20c9ac;
+    opacity: 1;
+  }
+}
+
+
+// pending
+.pending-shift {
+  border-radius: 4px;
+  background: rgba(252, 52, 0, 0.10);
+  padding: 5px 10px;
+  width: 138px;
+  .pending-status-tag {
+    display: inline-flex;
+    padding: 3px 8px;
+    flex-direction: column;
+    align-items: flex-start;
+    border-radius: 4px;
+    background: #fff;
+    color: #2e2c34;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    padding: 4px 14px;
+    line-height: 18px; /* 150% */
+    position: relative;
+    &::before {
+      content: " ";
+      position: absolute;
+      top: 10px;
+      left: 5px;
+      width: 4px;
+      height: 4px;
+      border-radius: 1px;
+      background: #FC3400;
+    }
+  }
+  .pending-shift-line {
+    margin: 0px !important;
+    margin-bottom: 20px !important;
+    border: 2px solid #FC3400;
+    opacity: 1;
+  }
+}
+
+
+
+// blue pending
+.blue-pending-shift {
+  border-radius: 4px;
+  background: rgba(85, 66, 246, 0.10);
+  padding: 5px 10px;
+  width: 138px;
+  .blue-pending-status-tag {
+    display: inline-flex;
+    padding: 3px 8px;
+    flex-direction: column;
+    align-items: flex-start;
+    border-radius: 4px;
+    background: #fff;
+    color: #2e2c34;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    padding: 4px 14px;
+    line-height: 18px; /* 150% */
+    position: relative;
+    &::before {
+      content: " ";
+      position: absolute;
+      top: 10px;
+      left: 5px;
+      width: 4px;
+      height: 4px;
+      border-radius: 1px;
+      background: #5542F6;
+    }
+  }
+  .blue-pending-shift-line {
+    margin: 0px !important;
+    margin-bottom: 20px !important;
+    border: 2px solid #5542F6;
+    opacity: 1;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ===========================================learning table
+.dashboard-table-sm{
+  min-width: 500px !important;
+}
+.dashboard-table-md{
+  min-width: 800px !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// -==============================================statuses
+.due {
+  display: inline-flex;
+  padding: 2px 10px 2px 10px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  background: rgba(255, 160, 67, 0.1);
+
+  color: #ffa043;
+
+  /* Regular Text / 12px / Semibold */
+  font-family: Manrope;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+}
+.re-attempt,
+.rejected {
+  display: inline-flex;
+  padding: 2px 10px 2px 10px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  background: rgba(255, 160, 67, 0.1);
+
+  color: #ffa043;
+
+  /* Regular Text / 12px / Semibold */
+  font-family: Manrope;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+}
+.submitted,
+.approved {
+  display: inline-flex;
+  padding: 2px 8px 4px 8px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  background: rgba(32, 201, 172, 0.1);
+  color: #20c9ac;
+  /* Regular Text / 12px / Semibold */
+  font-family: Manrope;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 18px; /* 150% */
+}
+

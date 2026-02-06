@@ -1,0 +1,132 @@
+.blushed-card {
+  border-radius: 4px;
+  background: #fff;
+  padding: 15px 20px;
+  height: 100%;
+}
+.card-dropdown {
+  background-color: transparent;
+  padding: 0 !important;
+  border: none !important;
+  color: var(--fill-dark-dark-2, #84818a);
+  font-feature-settings: "clig" off, "liga" off;
+
+  /* Regular Text / 14px / Regular  */
+  font-family: Manrope;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px; /* 142.857% */
+}
+.dropdown-menu-card {
+  min-width: 100px;
+  background-color: transparent;
+  padding: 0 !important;
+  border: none !important;
+  color: var(--fill-dark-dark-2, #84818a);
+  border-radius: 0px !important;
+  /* Regular Text / 14px / Regular  */
+  font-family: Manrope;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  text-align: center;
+  padding: 5px 5px !important;
+
+  &:focus,
+  &:active {
+    outline: none;
+    box-shadow: none;
+    padding-right: 25px;
+  }
+  &.form-select {
+    background-size: 10px 10px !important;
+    background-position: right 0.55rem center;
+  }
+}
+// =============================================dp and name
+.dp-div {
+  display: flex;
+  align-items: center;
+  .dp-img {
+    width: 24px;
+    height: 24px;
+    border-radius: 100%;
+  }
+  .dp-img-lg {
+    width: 32px;
+    height: 32px;
+    border-radius: 100%;
+  }
+  .dp-img-lg2{
+    width: 42px;
+    height: 42px;
+    border-radius: 100%;
+  }
+  p {
+    color: var(--fill-dark-dark-2, #84818a);
+    font-feature-settings: "clig" off, "liga" off;
+
+    /* Regular Text / 12px / Medium */
+    font-family: Manrope;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    width: 160px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+h2 {
+
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  width: 400px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  @media only screen and (max-width:600px){
+    width: 200px;
+  }
+}
+  h4 {
+    color: var(--fill-dark-main-dark, #2e2c34);
+    font-feature-settings: "clig" off, "liga" off;
+
+    /* Regular Text / 14px / Semibold */
+    font-family: Manrope;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+  }
+}
+.icon-div--icon{
+    height: 24px;
+    width: 24px;
+    background-color: #20C9AC;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.center-table{
+    min-width: 430px;
+}
+.center-table tbody tr td {
+  vertical-align: middle;
+}
+.center-table tbody tr {
+  &:hover {
+    background: rgba($primary, 0.1);
+  }
+}
+.menu-btn-dots img:hover {
+  fill: $primary !important;
+}
+.center-table > :not(caption) > * > * {
+  border-bottom-width: 0px;
+  cursor: pointer;
+}

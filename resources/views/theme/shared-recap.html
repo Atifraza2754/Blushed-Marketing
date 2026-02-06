@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap5 -->
+    <link rel="stylesheet" href="assets/bootstrap5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <!-- manrop fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!--evo calendar  -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/evo-calendar@1.1.3/evo-calendar/css/evo-calendar.min.css">
+    <!-- css -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <title>Blushed</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <div class="row shared-recap">
+                    <div class="col-lg-12 mx-auto mb-3">
+                       <div class="d-flex justify-content-center">
+                        <div class="side-logo mb-4">
+                            <img src="assets/images/blushed.png" alt="" class="">
+                        </div>
+                       </div>
+                        <h1 class="f-32 w-600 text-primary">
+                            Recap Report
+                        </h1>
+                    </div>
+                    <div class="col-lg-12 mx-auto">
+                        <div class="mb-3">
+                            <label for="" class="form-label label-blushed"> <b class="text-black">1:</b>
+                                Name (as shown on your income tax return) </label>
+                            <input type="text" name="" id="" readonly class="form-control input-blushed"
+                                placeholder="Enter Name" value="ABCD" aria-describedby="helpId">
+                        </div>
+                        <div class="mb-3">
+                            <label for="" class="form-label label-blushed"> <b class="text-black">2:</b>
+                                Business name/disregarded entity name, if different from above</label>
+                            <input type="text" name="" id="" readonly class="form-control input-blushed"
+                                placeholder="Enter Name" value="ABCD" aria-describedby="helpId">
+                        </div>
+                        <div class="mb-3">
+                            <label for="" class="form-label label-blushed"><b class="text-black">3:</b> Check
+                                appropriate box for federal tax classification of the person whose name is
+                                entered on line 1. Check only one of the following seven boxes. </label>
+                            <div class=" mt-2">
+                                <div class="form-check">
+                                    <!-- <input class="form-check-input" type="checkbox" value="" id="defaultCheck1"> -->
+                                    <label class="form-check-label label-blushed" for="defaultCheck1">
+                                       <span class="text-primary">*&nbsp;</span>Individual/sole proprietor or single-member LLC
+                                    </label>
+                                </div>
+
+                                <div class="form-check ">
+                                    <!-- <input class="form-check-input" type="checkbox" value="" id="defaultCheck2"> -->
+                                    <label class="form-check-label label-blushed" for="defaultCheck2">
+                                        <span class="text-primary">*&nbsp;</span>C Corporation
+                                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <!-- <input class="form-check-input" type="checkbox" value="" id="defaultCheck3"> -->
+                                    <label class="form-check-label label-blushed" for="defaultCheck3">
+                                        <span class="text-primary">*&nbsp;</span> S Corporation
+                                    </label>
+                                </div>
+                                <div class="form-check ">
+                                    <!-- <input class="form-check-input" type="checkbox" value="" id="defaultCheck2"> -->
+                                    <label class="form-check-label label-blushed" for="defaultCheck2">
+                                        <span class="text-primary">*&nbsp;</span>Partnership
+                                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <!-- <input class="form-check-input" type="checkbox" value="" id="defaultCheck3"> -->
+                                    <label class="form-check-label label-blushed" for="defaultCheck3">
+                                        <span class="text-primary">*&nbsp;</span> Trust/estate
+                                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <!-- <input class="form-check-input" type="checkbox" value="" id="defaultCheck3"> -->
+                                    <label class="form-check-label label-blushed" for="defaultCheck3">
+                                        <span class="text-primary">*&nbsp;</span> Limited liability company. Enter the tax classification (C=C corporation,
+                                        S=S corporation, P=Partnership) _________________
+                                    </label>
+                                    <!-- <p class="form-label label-blushed"><b class="text-black">Note:</b> Check the appropriate box in the line above for the tax classification of the single-member owner. Do not check LLC if the LLC is classified as a single-member LLC that is disregarded from the owner unless the owner of the LLC is another LLC that is not disregarded from the owner for U.S. federal tax purposes. Otherwise, a single-member LLC that is disregarded from the owner should check the appropriate box for the tax classification of its owner. </p> -->
+                                </div>
+                              
+
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="" class="form-label label-blushed"> <b class="text-black">4:</b>
+                                Exemptions (codes apply only to certain entities, not individuals; see instructions
+                                on page 3):<br>
+                                Exempt payee code (if any)</label>
+                            <input type="text" name="" id="" readonly class="form-control input-blushed"
+                                placeholder="Enter Name" value="1234" aria-describedby="helpId">
+                        </div>
+                        <div class="mb-3">
+                            <label for="" class="form-label label-blushed"> Exemption from FATCA reporting code (if
+                                any)</label>
+                            <input type="text" name="" id="" readonly class="form-control input-blushed"
+                                placeholder="Enter exemption from FATCA" value="1234" aria-describedby="helpId">
+                        </div>
+                        <div class="mb-3">
+                            <label for="" class="form-label label-blushed"><b>5</b>: Address (number, street, and
+                                apt. or suite no.) *</label>
+                            <input type="text" name="" id="" readonly class="form-control input-blushed"
+                                placeholder="Enter address" value="lorem ABVSF NKJHHGH" aria-describedby="helpId">
+                        </div>
+                        <div class="mb-3">
+                            <label for="" class="form-label label-blushed"><b>6</b>: City, state, and ZIP code
+                                *</label>
+                            <input type="text" name="" id="" readonly class="form-control input-blushed"
+                                placeholder="Enter address" value="lorem ABVSF NKJHHGH" aria-describedby="helpId">
+                        </div>
+                        <div class="mb-3">
+                            <label for="" class="form-label label-blushed"><b>7</b>: List account number(s)
+                                here</label>
+                            <input type="text" name="" id="" readonly class="form-control input-blushed"
+                                placeholder="00000000000" value="00000000000" aria-describedby="helpId">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="" class="form-label label-blushed"><b>8</b>: Requester’s name and
+                                address</label>
+                            <input type="text" name="" id="" readonly class="form-control input-blushed"
+                                placeholder="Enter requester name and address" value="lorem ABVSF NKJHHGH"
+                                aria-describedby="helpId">
+                        </div>
+                        <div class="mb-3">
+                            <label for="" class="form-label label-blushed"><b>9</b>: Social security number</label>
+                            <input type="text" name="" id="" readonly class="form-control input-blushed"
+                                placeholder="000-00-0000" value="000-00-0000" aria-describedby="helpId">
+                        </div>
+                        <div class="mb-3">
+                            <label for="" class="form-label label-blushed"><b>10</b>:Employer identification
+                                number</label>
+                            <input type="text" name="" id="" readonly class="form-control input-blushed"
+                                placeholder="000-00-0000" value="000-00-0000" aria-describedby="helpId">
+                        </div>
+                        <div class="mb-3">
+                            <label for="" class="form-label label-blushed"><b>11</b>:Date</label>
+                            <input type="text" name="" id="" readonly class="form-control input-blushed"
+                                placeholder="dd/mm/yyyy" value="22/5/2923" aria-describedby="helpId">
+                        </div>
+                        <div class="mb-3">
+                            <label for="" class="form-label label-blushed"><b>11</b>:Digital Signature *</label>
+                            <div class="form-check">
+                                <!-- <input class="form-check-input" type="checkbox" readonly value="" id="defaultCheck1"> -->
+                                <label class="form-check-label label-blushed" for="defaultCheck1">
+                                    Agree to the terms and conditions as outlined in the Blushed Marketing LLC IC
+                                    Agreement linked to above. Your submission will count as your digital signature.
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Jquery -->
+    <script src="assets/Js/jquery.js"></script>
+    <!-- Popper -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"
+        integrity="sha512-nnzkI2u2Dy6HMnzMIkh7CPd1KX445z38XIu4jG1jGw7x5tSL3VBjE44dY4ihMU1ijAQV930SPM12cCFrB18sVw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- bootstrap5 -->
+    <script src="assets/bootstrap5/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js"></script>
+    <script src="assets/Js/app.js"></script>
+
+</body>
+
+</html>

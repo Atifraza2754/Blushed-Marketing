@@ -1,0 +1,57 @@
+.border-dark{
+    border-radius: 4px;
+border: 1px solid  #EBEAED !important;
+
+}
+.pay-card{
+    border-radius: 4px;
+background: #FFF;
+padding: 12px;
+}
+.pay-label{
+    min-width: 160px;
+    color: #000;
+/* Regular Text / 14px / Medium */
+font-family: Manrope;
+font-size: 14px;
+font-style: normal;
+font-weight: 600;
+line-height: 20px; /* 142.857% */
+}
+.pay-input{
+    border-radius: 4px;
+border: 1px solid  #EBEAED;
+background: #FFF;
+padding: 7px 10px;
+font-size: 14px;
+}
+.sub-total{
+    display: flex;
+width: 239px;
+padding: 30px 39px;
+justify-content: center;
+align-items: center;
+border: 2px dashed  #CD7FAF;
+@media only screen and (max-width:767px){
+    width: 90%;
+    margin:20px auto !important;
+}
+p{
+    color: #000;
+font-feature-settings: 'clig' off, 'liga' off;
+font-family: Manrope;
+font-size: 20px;
+font-style: normal;
+font-weight: 500;
+line-height: 20px; /* 100% */
+span{
+    color: #000;
+font-feature-settings: 'clig' off, 'liga' off;
+font-family: Manrope;
+font-size: 22px;
+font-style: normal;
+font-weight: 600;
+line-height: 20px;
+}
+}
+}

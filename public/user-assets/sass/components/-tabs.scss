@@ -1,0 +1,55 @@
+/* Style the tab */
+.tab-div{
+  overflow-x: auto;
+  border-bottom: 1px solid #EBEAED;
+}
+.tab {
+    // border-bottom: 1px solid #EBEAED;
+    min-width:500px;
+    @media only screen and (max-width:500px){
+      display: flex;
+      // justify-content: space-between;
+    }
+  }
+  
+  /* Style the buttons that are used to open the tab content */
+  .tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 7px 16px;
+    transition: 0.3s;
+    border-bottom: 2px solid transparent;
+
+    color: #2E2C34;
+text-align: center;
+font-family: Manrope;
+font-size: 14px;
+font-style: normal;
+font-weight: 500;
+line-height: 18px; /* 128.571% */
+  }
+  
+  /* Change background color of buttons on hover */
+  .tab button:hover {
+    border-bottom: 2px solid $primary;
+  }
+  
+  /* Create an active/current tablink class */
+  .tab button.active {
+    border-bottom: 2px solid $primary;
+  }
+  
+  /* Style the tab content */
+  .tabcontent {
+    display: none;
+    margin: 0px 0px 20px 0px;
+    background-color: transparent;
+    padding: 0px 0px;
+  }
+  .tabcontent-table{
+    padding: 7px 20px;
+    background-color: white;
+  }

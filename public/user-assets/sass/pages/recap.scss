@@ -1,0 +1,377 @@
+.align-dropdown {
+  width: 80px;
+  height: 42px;
+  border-radius: 4px;
+  border: 1px solid #ebeaed;
+  background-color: #fff;
+  color: #84818a;
+  text-align: center;
+  @media only screen and (max-width: 550px) {
+    width: 55px;
+    height: 32px;
+  }
+}
+.table-search {
+  position: relative;
+  margin-left: 15px;
+  @media only screen and (max-width: 550px) {
+    margin-left: 5px;
+  }
+  input {
+    width: 255px;
+    height: 42px;
+    padding: 10px 20px;
+    outline: none;
+    border: 1px solid #ebeaed;
+    border-radius: 4px;
+    @media only screen and (max-width: 550px) {
+      height: 32px;
+      width: 200px;
+    }
+    @media only screen and (max-width: 400px) {
+      height: 32px;
+      width: 170px;
+      padding: 5px 10px;
+    }
+    color: var(--outline-dark-dark-2, #84818a);
+    font-feature-settings: "clig" off, "liga" off;
+
+    /* Regular Text / 14px / Medium */
+    font-family: Manrope;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px; /* 142.857% */
+
+    &:focus,
+    &:active {
+      outline: none;
+      box-shadow: none;
+      border: 1px solid #cd7faf;
+    }
+  }
+  i {
+    position: absolute;
+    top: 6px;
+    right: 15px;
+    font-size: 20px;
+    @media only screen and (max-width: 550px) {
+      top: 4px;
+      font-size: 14px;
+    }
+  }
+}
+
+.refresh-btn {
+  width: 48px;
+  height: 42px;
+  background-color: #fff;
+  text-align: center;
+  border-radius: 4px;
+  border: 1px solid #cd7faf;
+  margin-left: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @media only screen and (max-width: 550px) {
+    height: 32px;
+    width: 70px;
+    margin-left: 5px;
+  }
+}
+.download-dropdown {
+  display: flex;
+  width: 48px;
+  height: 42px;
+  padding: 8px;
+  justify-content: center;
+  align-items: center;
+  border: 0px solid #cd7faf;
+  margin-left: 15px;
+  background-color: $primary;
+  border-radius: 4px;
+  @media only screen and (max-width: 550px) {
+    height: 32px;
+    width: 32px;
+    margin-left: 5px;
+  }
+}
+
+// ======================ocr
+.ocr-card {
+  border-radius: 10px;
+  background: var(--white, #fff);
+  box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.15);
+  display: flex;
+  padding: 12px;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  img {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+// input:active,
+// input:focus,
+// select:active,
+// select:focus{
+//     box-shadow: rgba(0, 0, 0, 0.075) 0px 1px 1px inset, rgba(0, 114, 190, 0.6) 0px 0px 8px;
+//     border-color: rgb(0, 114, 190);
+//     outline: 0px;
+// }
+
+.input-container {
+  position: relative;
+  svg {
+    position: absolute;
+    top: 26px;
+    right: 20px;
+    fill: #84889b;
+    &:hover {
+      fill: $primary;
+      cursor: pointer;
+    }
+  }
+
+  .copied {
+    position: absolute;
+    bottom: 32px;
+    right: 0px;
+    background-color: rgba(0, 0, 0, 0.699);
+    color: white;
+    padding: 5px;
+    border-radius: 4px;
+    font-size: 14px;
+    display: none;
+  }
+}
+
+// ==============tag
+.tag {
+  display: inline-block;
+  border-radius: 20px;
+  padding: 2px 12px;
+  align-items: center;
+  background: rgba(205, 127, 175, 0.15);
+  border-radius: 10px;
+  color: #141519;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px; /* 142.857% */
+  margin-right: 10px;
+  span {
+    margin-left: 10px !important;
+    color: #cd7faf;
+  }
+}
+.shared-recap {
+  margin: 30px 0px;
+  background-color: white;
+  box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.15);
+  padding: 30px;
+  border-radius: 4px;
+  @media only screen and (max-width: 550px) {
+    margin: 10px 0px;
+    padding: 15px 5px;
+  }
+}
+.add-img {
+  padding: 0px;
+  border: none;
+  background-color: transparent;
+  font-size: 14px;
+  color: $primary;
+  text-decoration: underline;
+}
+.quiz-added-image {
+  width: 100%;
+  border: 2px solid $primary;
+  padding: 10px;
+}
+
+div.dataTables_wrapper div.dataTables_filter input {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+PHN2ZyAgIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIgICB4bWxuczpjYz0iaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbnMjIiAgIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyIgICB4bWxuczpzdmc9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiAgIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgICB2ZXJzaW9uPSIxLjEiICAgaWQ9InN2ZzQ0ODUiICAgdmlld0JveD0iMCAwIDIxLjk5OTk5OSAyMS45OTk5OTkiICAgaGVpZ2h0PSIyMiIgICB3aWR0aD0iMjIiPiAgPGRlZnMgICAgIGlkPSJkZWZzNDQ4NyIgLz4gIDxtZXRhZGF0YSAgICAgaWQ9Im1ldGFkYXRhNDQ5MCI+ICAgIDxyZGY6UkRGPiAgICAgIDxjYzpXb3JrICAgICAgICAgcmRmOmFib3V0PSIiPiAgICAgICAgPGRjOmZvcm1hdD5pbWFnZS9zdmcreG1sPC9kYzpmb3JtYXQ+ICAgICAgICA8ZGM6dHlwZSAgICAgICAgICAgcmRmOnJlc291cmNlPSJodHRwOi8vcHVybC5vcmcvZGMvZGNtaXR5cGUvU3RpbGxJbWFnZSIgLz4gICAgICAgIDxkYzp0aXRsZT48L2RjOnRpdGxlPiAgICAgIDwvY2M6V29yaz4gICAgPC9yZGY6UkRGPiAgPC9tZXRhZGF0YT4gIDxnICAgICB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLC0xMDMwLjM2MjIpIiAgICAgaWQ9ImxheWVyMSI+ICAgIDxnICAgICAgIHN0eWxlPSJvcGFjaXR5OjAuNSIgICAgICAgaWQ9ImcxNyIgICAgICAgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNjAuNCw4NjYuMjQxMzQpIj4gICAgICA8cGF0aCAgICAgICAgIGlkPSJwYXRoMTkiICAgICAgICAgZD0ibSAtNTAuNSwxNzkuMSBjIC0yLjcsMCAtNC45LC0yLjIgLTQuOSwtNC45IDAsLTIuNyAyLjIsLTQuOSA0LjksLTQuOSAyLjcsMCA0LjksMi4yIDQuOSw0LjkgMCwyLjcgLTIuMiw0LjkgLTQuOSw0LjkgeiBtIDAsLTguOCBjIC0yLjIsMCAtMy45LDEuNyAtMy45LDMuOSAwLDIuMiAxLjcsMy45IDMuOSwzLjkgMi4yLDAgMy45LC0xLjcgMy45LC0zLjkgMCwtMi4yIC0xLjcsLTMuOSAtMy45LC0zLjkgeiIgICAgICAgICBjbGFzcz0ic3Q0IiAvPiAgICAgIDxyZWN0ICAgICAgICAgaWQ9InJlY3QyMSIgICAgICAgICBoZWlnaHQ9IjUiICAgICAgICAgd2lkdGg9IjAuODk5OTk5OTgiICAgICAgICAgY2xhc3M9InN0NCIgICAgICAgICB0cmFuc2Zvcm09Im1hdHJpeCgwLjY5NjQsLTAuNzE3NiwwLjcxNzYsMC42OTY0LC0xNDIuMzkzOCwyMS41MDE1KSIgICAgICAgICB5PSIxNzYuNjAwMDEiICAgICAgICAgeD0iLTQ2LjIwMDAwMSIgLz4gICAgPC9nPiAgPC9nPjwvc3ZnPg==);
+  background-repeat: no-repeat;
+  background-color: #fff;
+  background-position: 4px 8px !important;
+  background-size: 25px;
+  padding: 10px 30px;
+  outline: none;
+  border: 1px solid #ebeaed;
+  border-radius: 4px;
+  color: var(--outline-dark-dark-2, #84818a);
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: Manrope;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  @media only screen and (max-width: 500px) {
+    width: 100%;
+  }
+}
+.dataTables_filter label {
+  font-size: 0px !important;
+}
+.dataTables_length {
+  display: none;
+}
+.dataTables_info {
+  color: var(--fill-dark-dark-2, #84818a);
+  font-feature-settings: "clig" off, "liga" off;
+
+  /* Regular Text / 12px / Medium */
+  font-family: Manrope;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 18px; /* 150% */
+  margin-top: 20px !important;
+}
+table.dataTable.display > tbody > tr.odd > .sorting_1,
+table.dataTable.order-column.stripe > tbody > tr.odd > .sorting_1 {
+  box-shadow: none !important;
+}
+table.dataTable.display > tbody > tr.even > .sorting_1,
+table.dataTable.order-column.stripe > tbody > tr.even > .sorting_1 {
+  box-shadow: none !important;
+}
+table.dataTable.no-footer {
+  border-bottom: 0px solid $gray !important;
+}
+table.dataTable tbody tr {
+  border-bottom: 1px solid #ebeaed !important;
+}
+table.dataTable.stripe > tbody > tr.odd > *,
+table.dataTable.display > tbody > tr.odd > * {
+  box-shadow: none !important;
+}
+table.dataTable.row-border > tbody > tr > th,
+table.dataTable.row-border > tbody > tr > td,
+table.dataTable.display > tbody > tr > th,
+table.dataTable.display > tbody > tr > td {
+  border-bottom: 1px solid #ebeaed;
+}
+.paginate_button.previous,
+.paginate_button.next {
+  border-radius: 4px !important;
+  background: rgba(205, 127, 175, 0.1) !important;
+  color: #cd7faf !important;
+  text-align: center !important;
+  font-feature-settings: "clig" off, "liga" off;
+
+  /* Regular Text / 12px / Semibold */
+  font-family: Manrope !important;
+  font-size: 14px !important;
+  font-style: normal;
+  font-weight: 600 !important;
+  line-height: 18px; /* 150% */
+}
+.paginate_button {
+  /* Regular Text / 12px / Semibold */
+  font-family: Manrope;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 18px; /* 150% */
+  background-color: transparent !important;
+  border: none !important;
+  margin-top: 20px;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button.current,
+.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+  border-radius: 4px !important;
+  background: rgba(205, 127, 175, 0.1) !important;
+  color: #cd7faf !important;
+  text-align: center !important;
+  font-feature-settings: "clig" off, "liga" off;
+
+  /* Regular Text / 12px / Semibold */
+  font-family: Manrope !important;
+  font-size: 14px !important;
+  font-style: normal;
+  font-weight: 600 !important;
+  line-height: 18px; /* 150% */
+}
+.document-div {
+  border-radius: 4px;
+  border: 1px solid #d6d6d8;
+  background: var(--fill-white-white, #fff);
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  padding: 10px 15px;
+  p {
+    color: var(--fill-dark-dark-1, #504f54);
+    font-feature-settings: "clig" off, "liga" off;
+
+    /* Regular Text / 14px / Medium */
+    font-family: Manrope;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px; /* 142.857% */
+    margin-left: 10px;
+  }
+}
+.wrong-option {
+  border: 1px solid red !important;
+  .form-check-input {
+    border-color: red !important;
+  }
+  .form-check-input:checked {
+    background-color: red !important;
+  }
+  input[type="checkbox"] {
+    -webkit-appearance: initial;
+    appearance: initial;
+    background: white;
+    width:16px;
+    height: 16px;
+    border: none;
+    position: relative;
+    border: 1px solid red;
+  }
+  input[type="checkbox"]:checked {
+    background: red;
+  }
+  input[type="checkbox"]:checked:after {
+    /* Heres your symbol replacement */
+    content: "x";
+    color: #fff;
+    /* The following positions my tick in the center, 
+     * but you could just overlay the entire box
+     * with a full after element with a background if you want to */
+    position: absolute;
+    left:52%;
+    top: 40%;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    /*
+     * If you want to fully change the check appearance, use the following:
+     * content: " ";
+     * width: 100%;
+     * height: 100%;
+     * background: blue;
+     * top: 0;
+     * left: 0;
+     */
+  }
+}
+.right-option {
+  border: 1px solid #3aca08 !important;
+  .form-check-input {
+    border-color: #3aca08 !important;
+  }
+  .form-check-input:checked {
+    background-color: #3aca08 !important;
+  }
+}

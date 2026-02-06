@@ -1,0 +1,26 @@
+.notifications-row {
+  background-color: white;
+  border-bottom: #efefef;
+  background: #fff;
+  padding: 16px;
+}
+.new-notification {
+  content: " ";
+  z-index: 20;
+  height: 10px !important;
+  width: 10px !important;
+  background-color: #d33415;
+  position: absolute;
+  top: 16px;
+  left: -5px;
+  z-index: 10;
+  border-radius: 100%;
+}
+.no-notifications{
+    height: calc(100vh - 250px);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}

@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap5 -->
+    <link rel="stylesheet" href="assets/bootstrap5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <!-- manrop fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!--evo calendar  -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/evo-calendar@1.1.3/evo-calendar/css/evo-calendar.min.css">
+
+    <!-- css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css"
+        integrity="sha512-wR4oNhLBHf7smjy0K4oqzdWumd+r5/+6QO/vDda76MW5iug4PT7v86FoEkySIJft3XA0Ae6axhIvHrqwm793Nw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.css"
+        integrity="sha512-6lLUdeQ5uheMFbWm3CP271l14RsX1xtx+J5x2yeIDkkiBpeVTNhTqijME7GgRKKi6hCqovwCoBTlRBEC20M8Mg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
+    <title>Blushed</title>
+</head>
+
+<body>
+    <div class="dashboard-frame">
+        <aside class="sidebar">
+            <div class="side-logo">
+                <img src="assets/images/blushed.png" alt="" class="">
+            </div>
+            <div class="side-nav">
+                <ul class="ms-0 ps-0">
+                    <li ><a href="index.html">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M3 13H11V3H3V13ZM3 21H11V15H3V21ZM13 21H21V11H13V21ZM13 3V9H21V3H13Z" />
+                            </svg>
+
+                            Dashboard</a>
+                    </li>
+
+                    <li >
+                        <a href="recap.html">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M17.65 6.35C16.2 4.9 14.21 4 12 4C7.58001 4 4.01001 7.58 4.01001 12C4.01001 16.42 7.58001 20 12 20C15.73 20 18.84 17.45 19.73 14H17.65C16.83 16.33 14.61 18 12 18C8.69001 18 6.00001 15.31 6.00001 12C6.00001 8.69 8.69001 6 12 6C13.66 6 15.14 6.69 16.22 7.78L13 11H20V4L17.65 6.35Z" />
+                            </svg>
+
+
+                            Recap
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="pay.html">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M20 4H4C2.89 4 2.01 4.89 2.01 6L2 18C2 19.11 2.89 20 4 20H20C21.11 20 22 19.11 22 18V6C22 4.89 21.11 4 20 4ZM20 18H4V12H20V18ZM20 8H4V6H20V8Z" />
+                            </svg>
+
+                            Pay
+                        </a>
+                    </li>
+
+                    <li  >
+                        <a href="shift.html">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M11.99 2C6.47 2 2 6.48 2 12C2 17.52 6.47 22 11.99 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 11.99 2ZM12 20C7.58 20 4 16.42 4 12C4 7.58 7.58 4 12 4C16.42 4 20 7.58 20 12C20 16.42 16.42 20 12 20Z" />
+                                <path d="M12.5 7H11V13L16.25 16.15L17 14.92L12.5 12.25V7Z" />
+                            </svg>
+
+                            Shifts/Schedule
+                        </a>
+                    </li>
+                    <li>
+                        <a href="onboard.html">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M19 3H14.82C14.4 1.84 13.3 1 12 1C10.7 1 9.6 1.84 9.18 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM12 3C12.55 3 13 3.45 13 4C13 4.55 12.55 5 12 5C11.45 5 11 4.55 11 4C11 3.45 11.45 3 12 3ZM12 7C13.66 7 15 8.34 15 10C15 11.66 13.66 13 12 13C10.34 13 9 11.66 9 10C9 8.34 10.34 7 12 7ZM18 19H6V17.6C6 15.6 10 14.5 12 14.5C14 14.5 18 15.6 18 17.6V19Z" />
+                            </svg>
+
+                            Onboarding
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="learning.html">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M15.5 13.5C15.5 15.5 13 17 13 18.5H11C11 17 8.5 15.5 8.5 13.5C8.5 11.57 10.07 10 12 10C13.93 10 15.5 11.57 15.5 13.5ZM13 19.5H11V21H13V19.5ZM19 13C19 14.68 18.41 16.21 17.42 17.42L18.84 18.84C20.18 17.27 21 15.23 21 13C21 10.26 19.77 7.81 17.84 6.16L16.42 7.58C17.99 8.86 19 10.82 19 13ZM16 5L12 1V4C7.03 4 3 8.03 3 13C3 15.23 3.82 17.27 5.16 18.84L6.58 17.42C5.59 16.21 5 14.68 5 13C5 9.14 8.14 6 12 6V9L16 5Z" />
+                            </svg>
+                            Learning Center
+                        </a>
+                    </li>
+                    <li>
+                         <a href="quiz.html">
+                            <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M21.3223 6H19.3223V15H6.32227V17C6.32227 17.55 6.77227 18 7.32227 18H18.3223L22.3223 22V7C22.3223 6.45 21.8723 6 21.3223 6ZM17.3223 12V3C17.3223 2.45 16.8723 2 16.3223 2H3.32227C2.77227 2 2.32227 2.45 2.32227 3V17L6.32227 13H16.3223C16.8723 13 17.3223 12.55 17.3223 12Z"
+                                     />
+                            </svg>
+
+                            Quiz & Info
+                        </a>
+                    </li>
+
+
+                    <li class="active-side">
+                        <a href="clock-time.html">
+                            <svg width="24" height="24" viewBox="0 0 25 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M13.5117 3C8.54172 3 4.51172 7.03 4.51172 12H1.51172L5.40172 15.89L5.47172 16.03L9.51172 12H6.51172C6.51172 8.13 9.64172 5 13.5117 5C17.3817 5 20.5117 8.13 20.5117 12C20.5117 15.87 17.3817 19 13.5117 19C11.5817 19 9.83172 18.21 8.57172 16.94L7.15172 18.36C8.78172 19.99 11.0217 21 13.5117 21C18.4817 21 22.5117 16.97 22.5117 12C22.5117 7.03 18.4817 3 13.5117 3ZM12.5117 8V13L16.7917 15.54L17.5117 14.33L14.0117 12.25V8H12.5117Z" />
+                            </svg>
+
+                            Time off
+                        </a>
+                    </li>
+
+
+
+
+                </ul>
+            </div>
+        </aside>
+        <main class="main-area">
+            <header class="top-header">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="d-flex justify-content-between">
+                                <div class="header-search">
+                                    <i class="bi bi-search"></i>
+                                    <input type="search" class="" placeholder="search...">
+                                </div>
+                                <div class="menu-icon"><i class="bi bi-list"></i></div>
+                                <div class="d-flex align-items-center">
+                                    <div class="px-3 ">
+                                        <a href="notifications.html">
+                                            <div class="notifications mt-1">
+                                                <i class="bi bi-bell-fill header-notification "></i>
+                                                <div class="number">
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    <div class="d-flex align-items-center user-account ps-2">
+
+                                        <div class="user-icon">
+                                            <img src="assets/images/Avatar.png" alt="">
+                                        </div>
+                                        <div class="dropdown profile-dropdown">
+                                            <button class=" dropdown-toggle" type="button" id="dropdownMenuButton1"
+                                                data-bs-toggle="dropdown" aria-expanded="false">
+                                                Maxbert
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+
+                                                 <li><a class="dropdown-item" href="sign-in.html">
+                                                        <i class="bi bi-box-arrow-left me-2"></i>Logout</a>
+                                                </li>
+                                                <li><a class="dropdown-item" href="settings.html">
+                                                    <i class="bi bi-gear me-2"></i>Settings</a>
+                                            </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="main-content">
+                <div class="container">
+
+
+
+
+                    <div class="blushed-card mt-4 mb-5" style="border-radius: 4px;
+                    border: 1px solid var(--fill-dark-dark-5, #EBEAED);
+                    background: var(--fill-white-white, #FFF);">
+                      <div class="d-flex flex-md-row flex-column justify-content-between align-items-start">
+                        <div class="d-flex align-items-start  flex-md-row flex-column">
+                            <div>
+                                <img src="assets/images/calendar.svg" alt="">
+
+                            </div>
+
+                            <div class="ms-3">
+                                <p class="f-16 w-600 text-primary mb-0 pb-0 mt-2">Shift
+                                    Ongoing</p>
+                                <h1 class="f-24 w-600 mb-2">
+                                    Shift Title
+                                </h1>
+                                <p class="mb-0 pb-0 f-14 w-500 text-gray">0.00 Hrs / $0.00
+                                </p>
+                                <p class="mb-0 pb-0 f-14 w-500 text-gray">Sun May 21, 2023
+                                    3:30pm – 4pm (PKT) <span class="ms-3"><img src="assets/images/location.svg" alt="" class="mb-1 me-1">Location</span></p>
+
+                                    <button type="button" data-bs-toggle="modal"
+                                    data-bs-target="#view-brand-details" class="main-btn-sm mt-3"
+                                    style="width: fit-content;">View
+                                    Brand Details</button>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 ms-md-0 ms-3  ms-auto ">
+                            <button type="button"  class="main-btn w-100">Confirm </button>
+                                <button type="button"  class="main-btn-blank w-100 mt-2">Cancel</button>
+                        </div>
+
+                    </div>
+
+                    </div>
+
+                    <h1 class="f-24 w-600 mb-2">
+                        Time Off Details
+                    </h1>
+                    <p class="f-14 w-500">This week : <span>07:56 min</span></p>
+
+
+                    <div class="blushed-card">
+                        <div class="table-responsive">
+                            <table class="table dashboard-table dashboard-table-md">
+                                <tbody>
+                                    <tr >
+                                        <td scope="row">
+                                            <div class="brand-number">
+                                                2
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="dp-div">
+
+                                                    <h4 class="mb-0 pb-0 f-14">Maria Roselia</h4>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p class="mb-0 pb-0 f-14 w-500 text-gray">
+                                                <img src="assets/images/calndr.svg" alt="">
+                                                Sun May 21, 2023
+                                                3:30pm – 4pm (PKT) </p>
+
+                                        </td>
+                                        <td>
+                                            <p class="mb-0 pb-0 f-14 w-500 text-gray">
+                                                Total Hours :
+                                            <span>09:09:21</span></p>
+                                        </td>
+                                        <td>
+                                            <div class="dropdown ms-1 ">
+                                                <button class="  p-0 border-0 bg-transparent" type="button"
+                                                    id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <svg width="30" height="30" viewBox="0 0 30 30" fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="M15 10C16.375 10 17.5 8.875 17.5 7.5C17.5 6.125 16.375 5 15 5C13.625 5 12.5 6.125 12.5 7.5C12.5 8.875 13.625 10 15 10ZM15 12.5C13.625 12.5 12.5 13.625 12.5 15C12.5 16.375 13.625 17.5 15 17.5C16.375 17.5 17.5 16.375 17.5 15C17.5 13.625 16.375 12.5 15 12.5ZM15 20C13.625 20 12.5 21.125 12.5 22.5C12.5 23.875 13.625 25 15 25C16.375 25 17.5 23.875 17.5 22.5C17.5 21.125 16.375 20 15 20Z"
+                                                            fill="#84818A" />
+                                                    </svg>
+
+
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+
+                                                    <li class="text-center"><a class="dropdown-item" href="sign-in.html">
+                                                            Menu Option</a>
+                                                    </li>
+                                                    <li class="text-center"><a class="dropdown-item" href="sign-in.html">
+                                                            Menu Option</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+
+                                    </tr>
+
+                                    <tr >
+                                        <td scope="row">
+                                            <div class="brand-number">
+                                                2
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="dp-div">
+
+                                                    <h4 class="mb-0 pb-0 f-14">Maria Roselia</h4>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p class="mb-0 pb-0 f-14 w-500 text-gray">
+                                                <img src="assets/images/calndr.svg" alt="">
+                                                Sun May 21, 2023
+                                                3:30pm – 4pm (PKT) </p>
+
+                                        </td>
+                                        <td>
+                                            <p class="mb-0 pb-0 f-14 w-500 text-gray">
+                                                Total Hours :
+                                            <span>09:09:21</span></p>
+                                        </td>
+                                        <td>
+                                            <div class="dropdown ms-1 ">
+                                                <button class="  p-0 border-0 bg-transparent" type="button"
+                                                    id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <svg width="30" height="30" viewBox="0 0 30 30" fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="M15 10C16.375 10 17.5 8.875 17.5 7.5C17.5 6.125 16.375 5 15 5C13.625 5 12.5 6.125 12.5 7.5C12.5 8.875 13.625 10 15 10ZM15 12.5C13.625 12.5 12.5 13.625 12.5 15C12.5 16.375 13.625 17.5 15 17.5C16.375 17.5 17.5 16.375 17.5 15C17.5 13.625 16.375 12.5 15 12.5ZM15 20C13.625 20 12.5 21.125 12.5 22.5C12.5 23.875 13.625 25 15 25C16.375 25 17.5 23.875 17.5 22.5C17.5 21.125 16.375 20 15 20Z"
+                                                            fill="#84818A" />
+                                                    </svg>
+
+
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+
+                                                    <li class="text-center"><a class="dropdown-item" href="sign-in.html">
+                                                            Menu Option</a>
+                                                    </li>
+                                                    <li class="text-center"><a class="dropdown-item" href="sign-in.html">
+                                                            Menu Option</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+
+                                    </tr>
+                                    <tr >
+                                        <td scope="row">
+                                            <!-- <div class="brand-number">
+                                                2
+                                            </div> -->
+                                        </td>
+                                        <td>
+                                            <div class="dp-div">
+
+                                                    <h4 class="mb-0 pb-0 f-14">Maria Roselia</h4>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p class="mb-0 pb-0 f-14 w-500 text-gray">
+                                                <img src="assets/images/calndr.svg" alt="">
+                                                Sun May 21, 2023 3:30pm – 4pm (PKT) <span class="ps-2">. You</span> </p>
+
+                                        </td>
+                                        <td>
+                                            <p class="mb-0 pb-0 f-14 w-500 text-gray">
+                                                Total Hours :
+                                            <span>09:09:21</span></p>
+                                        </td>
+                                        <td>
+                                            <div class="dropdown ms-1 ">
+                                                <button class="  p-0 border-0 bg-transparent" type="button"
+                                                    id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <svg width="30" height="30" viewBox="0 0 30 30" fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="M15 10C16.375 10 17.5 8.875 17.5 7.5C17.5 6.125 16.375 5 15 5C13.625 5 12.5 6.125 12.5 7.5C12.5 8.875 13.625 10 15 10ZM15 12.5C13.625 12.5 12.5 13.625 12.5 15C12.5 16.375 13.625 17.5 15 17.5C16.375 17.5 17.5 16.375 17.5 15C17.5 13.625 16.375 12.5 15 12.5ZM15 20C13.625 20 12.5 21.125 12.5 22.5C12.5 23.875 13.625 25 15 25C16.375 25 17.5 23.875 17.5 22.5C17.5 21.125 16.375 20 15 20Z"
+                                                            fill="#84818A" />
+                                                    </svg>
+
+
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+
+                                                    <li class="text-center"><a class="dropdown-item" href="sign-in.html">
+                                                            Menu Option</a>
+                                                    </li>
+                                                    <li class="text-center"><a class="dropdown-item" href="sign-in.html">
+                                                            Menu Option</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+
+                                    </tr>
+                                    <tr >
+                                        <td scope="row">
+                                            <div class="brand-number">
+                                                2
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="dp-div">
+
+                                                    <h4 class="mb-0 pb-0 f-14">Maria Roselia</h4>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p class="mb-0 pb-0 f-14 w-500 text-gray">
+                                                <img src="assets/images/calndr.svg" alt="">
+                                                Sun May 21, 2023 3:30pm – 4pm (PKT) <span class="ps-2">. You</span> </p>
+
+                                        </td>
+                                        <td>
+                                            <p class="mb-0 pb-0 f-14 w-500 text-gray">
+                                                Total Hours :
+                                            <span>09:09:21</span></p>
+                                        </td>
+                                        <td>
+                                            <div class="dropdown ms-1 ">
+                                                <button class="  p-0 border-0 bg-transparent" type="button"
+                                                    id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <svg width="30" height="30" viewBox="0 0 30 30" fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="M15 10C16.375 10 17.5 8.875 17.5 7.5C17.5 6.125 16.375 5 15 5C13.625 5 12.5 6.125 12.5 7.5C12.5 8.875 13.625 10 15 10ZM15 12.5C13.625 12.5 12.5 13.625 12.5 15C12.5 16.375 13.625 17.5 15 17.5C16.375 17.5 17.5 16.375 17.5 15C17.5 13.625 16.375 12.5 15 12.5ZM15 20C13.625 20 12.5 21.125 12.5 22.5C12.5 23.875 13.625 25 15 25C16.375 25 17.5 23.875 17.5 22.5C17.5 21.125 16.375 20 15 20Z"
+                                                            fill="#84818A" />
+                                                    </svg>
+
+
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+
+                                                    <li class="text-center"><a class="dropdown-item" href="sign-in.html">
+                                                            Menu Option</a>
+                                                    </li>
+                                                    <li class="text-center"><a class="dropdown-item" href="sign-in.html">
+                                                            Menu Option</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+
+                                    </tr>
+                                    <tr >
+                                        <td scope="row">
+                                            <div class="brand-number">
+                                                2
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="dp-div">
+
+                                                    <h4 class="mb-0 pb-0 f-14">Maria Roselia</h4>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p class="mb-0 pb-0 f-14 w-500 text-gray">
+                                                <img src="assets/images/calndr.svg" alt="">
+                                                Sun May 21, 2023
+                                                3:30pm – 4pm (PKT) </p>
+
+                                        </td>
+                                        <td>
+                                            <p class="mb-0 pb-0 f-14 w-500 text-gray">
+                                                Total Hours :
+                                            <span>09:09:21</span></p>
+                                        </td>
+                                        <td>
+                                            <div class="dropdown ms-1 ">
+                                                <button class="  p-0 border-0 bg-transparent" type="button"
+                                                    id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <svg width="30" height="30" viewBox="0 0 30 30" fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="M15 10C16.375 10 17.5 8.875 17.5 7.5C17.5 6.125 16.375 5 15 5C13.625 5 12.5 6.125 12.5 7.5C12.5 8.875 13.625 10 15 10ZM15 12.5C13.625 12.5 12.5 13.625 12.5 15C12.5 16.375 13.625 17.5 15 17.5C16.375 17.5 17.5 16.375 17.5 15C17.5 13.625 16.375 12.5 15 12.5ZM15 20C13.625 20 12.5 21.125 12.5 22.5C12.5 23.875 13.625 25 15 25C16.375 25 17.5 23.875 17.5 22.5C17.5 21.125 16.375 20 15 20Z"
+                                                            fill="#84818A" />
+                                                    </svg>
+
+
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+
+                                                    <li class="text-center"><a class="dropdown-item" href="sign-in.html">
+                                                            Menu Option</a>
+                                                    </li>
+                                                    <li class="text-center"><a class="dropdown-item" href="sign-in.html">
+                                                            Menu Option</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <div class="overlay"></div>
+
+    <!--publish Modal -->
+    <div class="modal fade" id="publishModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header mt-2 me-2">
+                    <button type="button" class="btn-close f-16" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body pt-0">
+                    <h5 class="f-22" style="color: #F34F4F; font-weight: 600; " id="exampleModalLabel">Alert</h5>
+                    <p class="mb-0 pb-0 f-600 text-gray f-14">You didn’t create quiz/info/recap for this brands</p>
+                    <hr class="my-5">
+                    <div class="d-flex justify-content-center mt-4">
+                        <button type="button" class="sign-btn " data-bs-dismiss="modal">Create Now</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!--add memebre Modal -->
+    <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header mt-2 me-2 align-items-start">
+                    <div>
+                        <h5 class="f-22" style=" font-weight: 600; " id="exampleModalLabel">Add members to this job</h5>
+                        <p class="mb-0 pb-0 f-600 text-gray f-14">Enter email with hour rate job</p>
+                    </div>
+                    <button type="button" class="btn-close f-16" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body pt-0 mt-3">
+                    <form action="" class="sign__frame-right--form">
+                        <div class="row w-100 align-items-center">
+                            <div class="col-lg-5 col-md-5 col-12">
+                                <div class="form-floating mb-4 w-100">
+                                    <input type="email" class="form-control sign-input " id="floatingInput">
+                                    <label for="floatingInput" class="sign-label">Email address</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-5 col-md-5 col-10">
+                                <div class="form-floating mb-4 w-100">
+                                    <input type="email" class="form-control sign-input " id="floatingInput">
+                                    <label for="floatingInput" class="sign-label">Flat rate</label>
+                                </div>
+                            </div>
+                            <div class="col-2 ">
+                                <div class="d-flex align-items-end  justify-content-md-start justify-content-center">
+                                    <svg class="me-2 cursor-pointer add-role" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM17 13H13V17H11V13H7V11H11V7H13V11H17V13Z"
+                                            fill="#CD7FAF" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" appended-row w-100 ">
+
+                        </div>
+                        <hr class="sign-line">
+                        <div class="col-lg-12">
+                            <div class="d-flex mt-4">
+                                <button class="sign-btn">Assign</button>
+                            </div>
+                        </div>
+
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script type="text/template" id="add-role">
+    <div class="row align-items-center w-100">
+        <div class="col-lg-5 col-md-5 col-12">
+            <div class="form-floating mb-4 w-100">
+                <input type="email" class="form-control sign-input " id="floatingInput"
+                    >
+                <label for="floatingInput" class="sign-label">Email address</label>
+            </div>
+        </div>
+        <div class="col-lg-5 col-md-5 col-10">
+            <div class="form-floating mb-4 w-100">
+                <input type="email" class="form-control sign-input " id="floatingInput"
+                    >
+                <label for="floatingInput" class="sign-label">Flat rate</label>
+            </div>
+        </div>
+        <div class="col-2">
+        <div class="d-flex align-items-end justify-content-md-start justify-content-center">
+            <svg class="delete-appended-element" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M14.5 3L15.5 4H19V6H5V4H8.5L9.5 3H14.5ZM6 18.9999C6 20.0999 6.9 20.9999 8 20.9999H16C17.1 20.9999 18 20.0999 18 18.9999V6.9999H6V18.9999ZM8.0001 9H16.0001V19H8.0001V9Z" fill="#FC3400"/>
+              </svg>
+        </div>
+       </div>
+    </div>
+   </script>
+
+
+      <!--view-brand-details Modal -->
+      <div class="modal fade" id="view-brand-details" tabindex="-1" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+              <div class="modal-header ">
+                  <h5 class="f-18 w-600 text-center w-100 mt-1" id="exampleModalLabel">Shift details</h5>
+                  <button type="button" class="btn-close f-12" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body pt-0">
+                  <div class="shift-detail-box">
+                      <div class="d-flex justify-content-between align-items-start flex-wrap ">
+                          <div class="">
+                              <p class="mb-0 pb-0 f-14 w-600">6pm - 09pm &nbsp;&nbsp;&nbsp; <span
+                                      class="text-primary">9</span> /10 Staff</p>
+                              <p class="mb-0 pb-0 f-14 w-600">Nichlos Floor &nbsp;&nbsp; (BA - Nash)</p>
+                          </div>
+                          <div class="d-flex align-items-center mt-2">
+                              <img src="assets/images/accepted.svg" alt="">
+                              <p class="mb-0 pb-0 f-14 w-600">Accepted</p>
+                          </div>
+                      </div>
+
+                      <hr class="sign-line my-3">
+
+                      <div class="d-flex justify-content-between align-items-start flex-md-row flex-column flex-wrap">
+                          <div class="mt-2">
+                              <p class="mb-0 pb-0 f-14 w-600 text-gray">Account:</p>
+                              <p class="mb-0 pb-0 f-14 w-600 text-black">Green Meadows</p>
+                          </div>
+                          <div class="mt-2">
+                              <p class="mb-0 pb-0 f-14 w-600 text-gray">Brand:</p>
+                              <p class="mb-0 pb-0 f-14 w-600 text-black">Junction 35</p>
+                          </div>
+                          <div class="mt-2">
+                              <button style="background-color: transparent; border: none;">
+                                  <img src="assets/images/btn.svg" alt="">
+                              </button>
+                          </div>
+                      </div>
+
+                      <div
+                          class="d-flex justify-content-between align-items-start  mt-3 flex-md-row flex-column flex-wrap">
+                          <div class="mt-2">
+                              <p class="mb-0 pb-0 f-14 w-600 text-gray">Address:</p>
+                              <p class="mb-0 pb-0 f-14 w-600 text-black">1147 Hunters Crossing, Alcoa, TN 37701</p>
+                          </div>
+                          <div class="mt-2">
+                              <p class="mb-0 pb-0 f-14 w-600 text-gray">Phone #:</p>
+                              <p class="mb-0 pb-0 f-14 w-600 text-black">541 533 2551</p>
+                          </div>
+                      </div>
+
+                      <div
+                          class="d-flex justify-content-between align-items-start flex-md-row flex-column flex-wrap mt-3">
+                          <div class="mt-2">
+                              <p class="mb-0 pb-0 f-14 w-600 text-gray">Email:</p>
+                              <p class="mb-0 pb-0 f-14 w-600 text-black">Rebecca@gmai.com</p>
+                          </div>
+                          <div class="mt-2">
+                              <p class="mb-0 pb-0 f-14 w-600 text-gray">Contact:</p>
+                              <p class="mb-0 pb-0 f-14 w-600 text-black">Rebecca</p>
+                          </div>
+                          <div class="mt-2">
+                              <p class="mb-0 pb-0 f-14 w-600 text-gray">Communication via:</p>
+                              <p class="mb-0 pb-0 f-14 w-600 text-black">call</p>
+                          </div>
+                      </div>
+                      <div class="mt-4">
+                          <p class="mb-0 pb-0 f-14 w-600 text-gray">Skus</p>
+                          <p class="mb-0 pb-0 f-14 w-600 text-black">Bam , Straight Bourbon</p>
+                      </div>
+
+                      <hr class="sign-line my-3">
+
+                      <h1 class="f-14 w-700 mb-3">Other Shift Staff</h1>
+                      <div class="d-flex align-items-center mb-2">
+                          <div class="dp-div" style="min-width: 150px;">
+                              <img src="assets/images/Avatar.png" alt="" class="dp-img">
+                              <div class="ms-2">
+                                  <h4 class="mb-0 pb-0 ">Maria Roselia</h4>
+                              </div>
+                          </div>
+                          <div class="d-flex align-items-center ms-3">
+                              <img src="assets/images/accepted.svg" alt="" width="20">
+                              <p class="mb-0 pb-0 f-14 w-600 ms-1">Accepted</p>
+                          </div>
+                      </div>
+
+                      <div class="d-flex align-items-center mb-2">
+                          <div class="dp-div" style="min-width: 150px;">
+                              <img src="assets/images/Avatar.png" alt="" class="dp-img">
+                              <div class="ms-2">
+                                  <h4 class="mb-0 pb-0 ">Abhoy Latif</h4>
+                              </div>
+                          </div>
+                          <div class="d-flex align-items-center ms-3">
+                              <img src="assets/images/pending.svg" alt="" width="20">
+                              <p class="mb-0 pb-0 f-14 w-600 ms-1">Pending</p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+          </div>
+      </div>
+  </div>
+    <!--note Modal -->
+    <div class="modal fade" id="noteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header mt-2 me-2 align-items-start">
+                    <div>
+                        <h5 class="f-18" style=" font-weight: 600; " id="exampleModalLabel">Shift notes</h5>
+                    </div>
+                </div>
+                <div class="modal-body pt-0">
+                    <form class="sign__frame-right--form">
+                        <div class="">
+                            <p class="mb-0 pb-0 f-14 w-600">03-22-2023 &nbsp;&nbsp;&nbsp; 6pm - 09pm &nbsp;&nbsp;&nbsp;
+                                <span class="text-primary">9</span> /10 Staff</p>
+                            <p class="mb-0 pb-0 f-14 w-600">Nichlos Floor &nbsp;&nbsp; </p>
+                        </div>
+                        <div class="form-floating mb-4 w-100">
+                            <textarea class="form-control  sign-input" placeholder="Leave a comment here"
+                                id="floatingTextarea2" style="height: 100px"></textarea>
+                            <label for="floatingTextarea2 " class="sign-label">Note</label>
+                        </div>
+
+                    </form>
+                    <div class="d-flex justify-content-end mt-4">
+                        <a type="button" class="main-btn-blank ms-3 text-white bg-primary" data-bs-dismiss="modal"
+                            data-bs-toggle="modal" data-bs-target="#event-details">Send</a>
+                        <button type="button" class="main-btn-blank text-dark border-dark  ms-3" data-bs-dismiss="modal"
+                            data-bs-toggle="modal" data-bs-target="#event-details">Close</button>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Jquery -->
+    <script src="assets/Js/jquery.js"></script>
+    <!-- Popper -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"
+        integrity="sha512-nnzkI2u2Dy6HMnzMIkh7CPd1KX445z38XIu4jG1jGw7x5tSL3VBjE44dY4ihMU1ijAQV930SPM12cCFrB18sVw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- bootstrap5 -->
+    <script src="assets/bootstrap5/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js"></script>
+    <script src="assets/Js/app.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"
+        integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+    <script src="assets/Js/calendar-full.js"></script>
+    <script>
+
+        $('.available-shifts').slick({
+            slidesToShow: 4.2,
+            slidesToScroll: 1,
+            autoplay: true,
+            autoplaySpeed: 2000,
+            arrows: false,
+            variableWidth: true,
+            responsive: [
+                {
+                    breakpoint: 1024,
+                    settings: {
+                        slidesToShow: 3,
+                        slidesToScroll: 3,
+
+                    }
+                },
+                {
+                    breakpoint: 600,
+                    settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 2
+                    }
+                },
+                {
+                    breakpoint: 480,
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1
+                    }
+                }
+                // You can unslick at a given breakpoint now by adding:
+                // settings: "unslick"
+                // instead of a settings object
+            ]
+        });
+
+    </script>
+    <script>
+        $(document).ready(function () {
+            // Function to append the template when .add-role is clicked
+            function appendRoleTemplate() {
+                // Clone the template content
+                const template = $("#add-role").html();
+
+                // Append the template to the form
+                $(".appended-row").append(template);
+            }
+
+            // Add a click event listener to the .add-role element
+            $(".add-role").on("click", appendRoleTemplate);
+        });
+
+        // Event delegation for deleting appended elements
+        $(".appended-row").on("click", ".delete-appended-element", function () {
+            // Remove the corresponding parent element when the delete icon is clicked
+            $(this).closest(".row").remove();
+        });
+    </script>
+    <script>
+        // Add a click event listener to the delete buttons
+        $(document).ready(function () {
+            $(".delete-detail").click(function () {
+                // Find the parent .shift-staf-row and remove it
+                $(this).closest(".shift-staf-row").remove();
+            });
+        });
+
+        // Active publish on checkbox checked
+        $(document).on('change', '.event-checkbox', function () {
+            var publishCount = $(".event-checkbox:checked").length;
+            $("#publish-count").text(publishCount);
+
+            if (publishCount == 0) {
+                $("#publish-btn").attr("disabled", true)
+            } else {
+                $("#publish-btn").attr("disabled", false)
+            }
+        })
+    </script>
+
+</body>
+
+</html>

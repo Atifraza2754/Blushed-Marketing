@@ -1,0 +1,31 @@
+body{
+    font-family: 'Manrope', sans-serif;
+    background-color: #FBFAFC;
+}
+.overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.541);
+    filter: blur(50%);
+    z-index: 100;
+    display: none;
+}
+.view-more-card{
+    position: relative;
+    padding-bottom: 55px !important;
+}
+.view-more{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+   white-space: nowrap;
+   text-align: center;
+   padding: 16px 0px;
+}
+.dropdown-menu{
+    min-width: fit-content !important;
+}

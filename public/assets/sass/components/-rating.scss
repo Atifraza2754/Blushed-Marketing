@@ -1,0 +1,26 @@
+// ==========================rating
+.rating {
+    position: relative;
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+ }
+ 
+ .rating__result {
+    font-size: 14px;
+    font-weight: 500;
+    color: black;
+    pointer-events: none;
+ }
+ 
+ .rating__star {
+    font-size: 1.3em;
+    cursor: pointer;
+    color: #dabd18b2;
+    transition: filter linear .3s;
+ }
+ 
+ .rating__star:hover {
+    filter: drop-shadow(1px 1px 4px gold);
+ }

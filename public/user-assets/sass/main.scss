@@ -1,0 +1,36 @@
+@import "abstracts/variables.scss";
+
+@import "base/-typography.scss";
+
+@import "base/-base.scss";
+
+
+@import "base/-utility.scss";
+
+@import "abstracts/-function.scss";
+
+@import "abstracts/-mixins.scss";
+
+@import "base/-animations.scss";
+
+@import "components/-buttons.scss";
+@import "components/calendar.scss";
+@import "components/-tabs.scss";
+@import "components/-table.scss";
+@import "components/modal.scss";
+@import "components/-forms.scss";
+@import "components/-rating.scss";
+
+@import "layout/-header.scss";
+
+@import "pages/-home.scss";
+
+@import "pages/-sign.scss";
+@import "pages/-team.scss";
+@import "pages/notifications.scss";
+
+@import "pages/recap.scss";
+@import "pages/-settings.scss";
+@import "pages/-learning-center.scss";
+@import "pages/-pay.scss";
+@import "pages/-shift.scss";
