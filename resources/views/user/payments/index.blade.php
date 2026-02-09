@@ -158,7 +158,7 @@ $payments = WorkHistory::where('user_id', Auth::id())
                                             {{ optional($p->payment)->is_paid ? 'Paid' : 'Awaiting Payment' }}
                                         </span>
                                     </td>
-                                    <td>{{ $p->notes ?? '—' }}</td>
+                                    <td>{{ $p->note ?? '—' }}</td>
                                 </tr>
                             @empty
                                 <tr>

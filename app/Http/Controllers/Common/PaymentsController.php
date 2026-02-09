@@ -215,6 +215,7 @@ public function paymentDetail($id)
             'sale_incentive'       => $request->salesIncentives,
             'out_of_pocket_expense' => $request->outOfPocket,
             'deduction'            => $request->deductions,
+            'note'                 => $request->note,
             'grand_total'          => $request->subtotal,
             'is_allownce_save'     => 1,
             'total_paid'           => $request->subTotal,

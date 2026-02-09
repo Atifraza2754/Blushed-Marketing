@@ -664,16 +664,24 @@ class ShiftsController extends Controller
             $response = $this->shifts_service->add_note($note, $shift_id);
 
             if ($response['status'] == 200) {
-
                 Session::flash('Alert', [
                     'status' => 200,
                     'message' => $response['message'],
                 ]);
-
-                return back();
+            } else {
+                Session::flash('Alert', [
+                    'status' => 100,
+                    'message' => $response['message'],
+                ]);
             }
+
+            return back();
         } catch (\Throwable $th) {
-            throw $th;
+            Session::flash('Alert', [
+                'status' => 500,
+                'message' => 'Error adding note: ' . $th->getMessage(),
+            ]);
+            return back();
         }
     }
 
@@ -1045,8 +1053,5 @@ public function autoCleanupCompletedShifts (NotificationsService $notificationSe
 
     return $stats;
 }
-
-
-
 
 }

@@ -31,6 +31,7 @@ class WorkHistory extends Model
         'sale_incentive',
         'out_of_pocket_expense',
         'deduction',
+        'note',
         'total_paid',
         'total_due',
         'grand_total',

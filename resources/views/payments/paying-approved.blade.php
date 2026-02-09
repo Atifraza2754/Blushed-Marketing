@@ -208,6 +208,11 @@
                     <input type="number" name="deductions" class="pay-input pay-calc" value="{{ $data->deduction ?? 0 }}">
                 </div>
 
+                <div class="d-flex align-items-center mb-4 flex-wrap">
+                    <label class="pay-label">Note:</label>
+                    <textarea name="note" class="pay-input" rows="3" placeholder="Add a note...">{{ $data->note ?? '' }}</textarea>
+                </div>
+
                 <div class="d-flex align-items-center mb-5 flex-wrap">
                     <label class="pay-label"></label>
                     <div class="sub-total-box">
@@ -376,6 +381,7 @@ $(document).ready(function() {
             salesIncentives: $('[name="sales_incentives"]').val(),
             outOfPocket: $('[name="out_of_pocket"]').val(),
             deductions: $('[name="deductions"]').val(),
+            note: $('[name="note"]').val(),
             subTotal: $('#sub_total_val').val()
         };
 

@@ -465,6 +465,7 @@ class ShiftsService extends BaseService
                     $user_recap = UserRecap::create([
                         'recap_id' => $recap->id,
                         'user_id' => $jm->user_id,
+                        'shift_id' => $job_id,
                         'created_at' => now(),
                         'updated_at' => now(),
                     ]);
@@ -800,109 +801,214 @@ class ShiftsService extends BaseService
     }
 
 
+    // public function publish_single_job_user($job_ids, $user_id)
+    // {
+    //     try {
+    //         if ($job_ids) {
+
+    //             $formData = [
+    //                 'is_published' => true
+    //             ];
+
+    //             // publish jobs
+    //             foreach ($job_ids as $key => $job_id) {
+
+    //                 // find members added for this job
+    //                 $job_members = JobMember::where('job_id', $job_id)->where('user_id', $user_id)->get();
+
+    //                 $job = Job::where('id', $job_id)->first();
+    //                 $brand = Brand::where('title', $job->brand)->first();
+
+    //                 // find quizzes for this job
+    //                 $quiz = Quiz::where('brand_id', $brand->id)->first();
+    //                 $quiz_question = QuizQuestion::where('quiz_id', $quiz->id)->get();
+
+    //                 // find recaps for this job
+    //                 $recap = Recap::where('brand_id', $brand->id)->first();
+    //                 $recap_questions = RecapQuestion::where('recap_id', $recap->id)->get();
+
+    //                 $training = Training::where('brand_id', $brand->id)->first();
+
+    //                 foreach ($job_members as $jm) {
+
+    //                     // assign quiz
+    //                     UserQuiz::where('user_id', $jm->user_id)->where('quiz_id', $quiz->id)->delete();
+    //                     UserQuiz::updateOrCreate([
+    //                         'quiz_id' => $quiz->id,
+    //                         'user_id' => $jm->user_id,
+    //                     ]);
+
+    //                     // assign quiz question
+
+    //                     $e = UserRecap::where('user_id', $jm->user_id)
+    //                         ->where('recap_id', $recap->id)
+    //                         ->where('shift_id', $job_id)
+    //                         ->delete();
+    //                     $user_recap_id = UserRecap::create([
+    //                         'recap_id' => $recap->id,
+    //                         'user_id' => $jm->user_id,
+    //                         'shift_id' => $job_id,
+    //                         'created_at' => Carbon::now(),
+    //                         'updated_at' => Carbon::now(),
+    //                     ]);
+
+    //                     // assign recap question
+    //                     foreach ($recap_questions as $rc) {
+    //                         UserRecapQuestion::create([
+    //                             'user_recap_id' => $user_recap_id->id,
+    //                             'recap_question_type' => $rc->question_type,
+    //                             'recap_question' => $rc->title,
+    //                             'recap_question_options' => $rc->options,
+    //                             'recap_question_answer' => null,
+    //                         ]);
+    //                     }
+
+    //                     //user training
+    //                     $e = UserTraining::where('user_id', $jm->user_id)
+    //                         ->where('training_id', $training->id)
+    //                         ->delete();
+
+    //                     UserTraining::create([
+    //                         'user_id' => $jm->user_id,
+    //                         'training_id' => $training->id,
+    //                         'due_date' => $training->end_date,
+    //                     ]);
+
+    //                     // store notification for these users
+    //                     Notification::create([
+    //                         'user_id' => $jm->user_id,
+    //                         'title' => "New Job Published",
+    //                         'description' => "view job details",
+    //                         'link' => '/user/shift/' . $job_id . '/detail'
+    //                     ]);
+    //                 }
+    //             }
+
+    //             // Job::whereIn('id', $job_ids)->update($formData);
+
+    //             if (count($job_ids) > 1) {
+    //                 return [
+    //                     'status' => 200,
+    //                     'message' => 'Selected Jobs are published successfully'
+    //                 ];
+    //             }
+    //         }
+    //     } catch (\Exception $e) {
+    //         return [
+    //             'status' => 100,
+    //             'message' => $e->getMessage()
+    //         ];
+    //     }
+    //     // return [
+    //     // 'status' => 100,
+    //     // 'message' => 'Sorry, something went wrong'
+    //     // ];
+    // }
+
     public function publish_single_job_user($job_ids, $user_id)
-    {
-        try {
-            if ($job_ids) {
+{
+    try {
+        if ($job_ids) {
 
-                $formData = [
-                    'is_published' => true
-                ];
-
-                // publish jobs
-                foreach ($job_ids as $key => $job_id) {
-
-                    // find members added for this job
-                    $job_members = JobMember::where('job_id', $job_id)->where('user_id', $user_id)->get();
-
-                    $job = Job::where('id', $job_id)->first();
-                    $brand = Brand::where('title', $job->brand)->first();
-
-                    // find quizzes for this job
-                    $quiz = Quiz::where('brand_id', $brand->id)->first();
-                    $quiz_question = QuizQuestion::where('quiz_id', $quiz->id)->get();
-
-                    // find recaps for this job
-                    $recap = Recap::where('brand_id', $brand->id)->first();
-                    $recap_questions = RecapQuestion::where('recap_id', $recap->id)->get();
-
-                    $training = Training::where('brand_id', $brand->id)->first();
-
-                    foreach ($job_members as $jm) {
-
-                        // assign quiz
-                        UserQuiz::where('user_id', $jm->user_id)->where('quiz_id', $quiz->id)->delete();
-                        UserQuiz::updateOrCreate([
-                            'quiz_id' => $quiz->id,
-                            'user_id' => $jm->user_id,
-                        ]);
-
-                        // assign quiz question
-
-                        $e = UserRecap::where('user_id', $jm->user_id)
-                            ->where('recap_id', $recap->id)
-                            ->where('shift_id', $job_id)
-                            ->delete();
-                        $user_recap_id = UserRecap::create([
-                            'recap_id' => $recap->id,
-                            'user_id' => $jm->user_id,
-                            'shift_id' => $job_id,
-                            'created_at' => Carbon::now(),
-                            'updated_at' => Carbon::now(),
-                        ]);
-
-                        // assign recap question
-                        foreach ($recap_questions as $rc) {
-                            UserRecapQuestion::create([
-                                'user_recap_id' => $user_recap_id->id,
-                                'recap_question_type' => $rc->question_type,
-                                'recap_question' => $rc->title,
-                                'recap_question_options' => $rc->options,
-                                'recap_question_answer' => null,
-                            ]);
-                        }
-
-                        //user training
-                        $e = UserTraining::where('user_id', $jm->user_id)
-                            ->where('training_id', $training->id)
-                            ->delete();
-
-                        UserTraining::create([
-                            'user_id' => $jm->user_id,
-                            'training_id' => $training->id,
-                            'due_date' => $training->end_date,
-                        ]);
-
-                        // store notification for these users
-                        Notification::create([
-                            'user_id' => $jm->user_id,
-                            'title' => "New Job Published",
-                            'description' => "view job details",
-                            'link' => '/user/shift/' . $job_id . '/detail'
-                        ]);
-                    }
-                }
-
-                // Job::whereIn('id', $job_ids)->update($formData);
-
-                if (count($job_ids) > 1) {
-                    return [
-                        'status' => 200,
-                        'message' => 'Selected Jobs are published successfully'
-                    ];
-                }
-            }
-        } catch (\Exception $e) {
-            return [
-                'status' => 100,
-                'message' => $e->getMessage()
+            $formData = [
+                'is_published' => true
             ];
+
+            // publish jobs
+            foreach ($job_ids as $key => $job_id) {
+
+                // find member added for this job (ONLY CHANGE HERE)
+                $jm = JobMember::where('job_id', $job_id)
+                    ->where('user_id', $user_id)
+                    ->first();
+
+                if (!$jm) {
+                    continue;
+                }
+
+                $job = Job::where('id', $job_id)->first();
+                $brand = Brand::where('title', $job->brand)->first();
+
+                // find quizzes for this job
+                $quiz = Quiz::where('brand_id', $brand->id)->first();
+                $quiz_question = QuizQuestion::where('quiz_id', $quiz->id)->get();
+
+                // find recaps for this job
+                $recap = Recap::where('brand_id', $brand->id)->first();
+                $recap_questions = RecapQuestion::where('recap_id', $recap->id)->get();
+
+                $training = Training::where('brand_id', $brand->id)->first();
+
+                // assign quiz
+                UserQuiz::where('user_id', $jm->user_id)
+                    ->where('quiz_id', $quiz->id)
+                    ->delete();
+
+                UserQuiz::updateOrCreate([
+                    'quiz_id' => $quiz->id,
+                    'user_id' => $jm->user_id,
+                ]);
+
+                // assign recap (EXACT SAME LOGIC)
+                UserRecap::where('user_id', $jm->user_id)
+                    ->where('recap_id', $recap->id)
+                    ->where('shift_id', $job_id)
+                    ->delete();
+
+                $user_recap_id = UserRecap::create([
+                    'recap_id'   => $recap->id,
+                    'user_id'    => $jm->user_id,
+                    'shift_id'   => $job_id,
+                    'created_at'=> Carbon::now(),
+                    'updated_at'=> Carbon::now(),
+                ]);
+
+                // assign recap questions
+                foreach ($recap_questions as $rc) {
+                    UserRecapQuestion::create([
+                        'user_recap_id' => $user_recap_id->id,
+                        'recap_question_type' => $rc->question_type,
+                        'recap_question' => $rc->title,
+                        'recap_question_options' => $rc->options,
+                        'recap_question_answer' => null,
+                    ]);
+                }
+
+                // user training
+                UserTraining::where('user_id', $jm->user_id)
+                    ->where('training_id', $training->id)
+                    ->delete();
+
+                UserTraining::create([
+                    'user_id' => $jm->user_id,
+                    'training_id' => $training->id,
+                    'due_date' => $training->end_date,
+                ]);
+
+                // store notification for user
+                Notification::create([
+                    'user_id' => $jm->user_id,
+                    'title' => "New Job Published",
+                    'description' => "view job details",
+                    'link' => '/user/shift/' . $job_id . '/detail'
+                ]);
+            }
+
+            if (count($job_ids) > 1) {
+                return [
+                    'status' => 200,
+                    'message' => 'Selected Jobs are published successfully'
+                ];
+            }
         }
-        // return [
-        // 'status' => 100,
-        // 'message' => 'Sorry, something went wrong'
-        // ];
+    } catch (\Exception $e) {
+        return [
+            'status' => 100,
+            'message' => $e->getMessage()
+        ];
     }
+}
+
 
     public function get_user_shifts_coverage($filter = null)
     {

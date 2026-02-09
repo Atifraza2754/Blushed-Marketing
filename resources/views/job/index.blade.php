@@ -251,15 +251,50 @@
                             
                             // Check if shift date is in the future
                             $iszutureShift = \Carbon\Carbon::parse($shift->date)->isFuture() || \Carbon\Carbon::parse($shift->date)->isToday();
+                            
+                            // Check if shift time has expired using EST timezone
+                            $isShiftExpired = false;
+                            $current_time_est = \Carbon\Carbon::now('America/New_York');
+                            
+                            // First check: if shift date is in past, it's expired
+                            $shift_date_carbon = \Carbon\Carbon::parse($shift->date, 'America/New_York')->endOfDay();
+                            if ($shift_date_carbon->isPast($current_time_est)) {
+                                $isShiftExpired = true;
+                            } else {
+                                // Second check: if date is today or future, check the time
+                                $scheduled_time = trim($shift->scheduled_time);
+                                
+                                // Parse scheduled_time to extract end time (e.g., "2 to 4 am" or "3:15 PM to 5:15 PM" or "4:10pm-4:20pm")
+                                if (preg_match('/(\d+)(?::(\d+))?\s*(?:am|pm)?\s*(?:to|-)\s*(\d+)(?::(\d+))?\s*(am|pm)/i', $scheduled_time, $matches)) {
+                                    $end_time_hour = intval($matches[3]);
+                                    $end_time_minutes = isset($matches[4]) && !empty($matches[4]) ? intval($matches[4]) : 0;
+                                    $period = strtolower($matches[5]);
+                                    
+                                    // Convert to 24-hour format
+                                    if ($period == 'pm' && $end_time_hour != 12) {
+                                        $end_time_hour += 12;
+                                    } elseif ($period == 'am' && $end_time_hour == 12) {
+                                        $end_time_hour = 0;
+                                    }
+                                    
+                                    // Create end datetime in EST timezone
+                                    $shift_end_datetime = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $shift->date . ' ' . str_pad($end_time_hour, 2, '0', STR_PAD_LEFT) . ':' . str_pad($end_time_minutes, 2, '0', STR_PAD_LEFT) . ':00', 'America/New_York');
+                                    
+                                    // Check if shift end time has passed
+                                    $isShiftExpired = $shift_end_datetime->isPast($current_time_est);
+                                }
+                            }
                         @endphp
 
                             <div class="col-md-4 col-sm-6 mb-4">
                                 <div class="counter-box rounded" style="background-color: {{ $color }}; border:2px solid {{ $b_color }};">
                                     
+                                    @if (!$isShiftExpired)
                                     <div class="form-check">
                                             <input type="checkbox" class="form-check-input select-shift" value="{{ $shift->id }}">
                                         <label class="form-check-label"></label>
                                     </div>
+                                    @endif
 
                                     <div class="d-flex justify-content-end align-items-center">
                                         @if ($shift->is_published)
@@ -279,7 +314,7 @@
                                     </div>
 
                                     <div class="d-flex justify-content-around mt-3">
-                                        <button class="btn btn-sm" style="background-color: {{ $color }}; border: 2px solid {{ $b_color }};" 
+                                        <button class="btn btn-sm modal_btn" style="background-color: {{ $color }}; border: 2px solid {{ $b_color }};" 
                                                 data-bs-toggle="modal" data-job="{{ $shift->id }}" data-note="{{ $shift->notes }}" data-bs-target="#exampleModal">
                                             + Note
                                         </button>
@@ -288,7 +323,7 @@
                                             + Members
                                         </a>
 
-                                        @if (!$shift->is_published)
+                                        @if (!$isShiftExpired)
                                             <div class="edit table-action cursor-pointer" style="border:2px solid {{ $b_color }}">
                                                 <a href='{{ URL::to("/shift/$shift->id/edit") }}' class="btn btn-sm" style="background-color: {{ $color }};">
                                                     Edit
@@ -405,7 +440,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action='{{ URL::to('/shift/note/add') }}' method="post" class="sign__frame-right--form">
+                    <form action='{{ URL::to('shift/note/add') }}' method="post" class="sign__frame-right--form">
                         @csrf
 
                         <div class="row w-100 align-items-center">

@@ -447,11 +447,23 @@ class UserRecapsController extends Controller
             Storage::put('public/' . $name, $pdf->output());
 
             // dd($pdfPath,$name);
-            $fileId = $this->googleDriveService->uploadFile($pdfPath, $name);
-            $fileUrl = "https://drive.google.com/file/d/{$fileId}/view";
-            UserRecap::where('id' , $id)->update(['recap_url' => $fileUrl]);
+            // Only attempt Google Drive upload if the service is configured
+            if ($this->googleDriveService && method_exists($this->googleDriveService, 'uploadFile')) {
+                try {
+                    $fileId = $this->googleDriveService->uploadFile($pdfPath, $name);
+                    $fileUrl = "https://drive.google.com/file/d/{$fileId}/view";
+                    UserRecap::where('id', $id)->update(['recap_url' => $fileUrl]);
+                } catch (\Throwable $e) {
+                    // Log and continue — do not block the approval flow if upload fails
+                    \Log::error('Google Drive upload failed: ' . $e->getMessage());
+                }
+            }
+
+            // clean up local temporary PDF
             Storage::delete('public/' . $name);
-            return back();
+
+            // return to caller (caller handles redirects)
+            return;
         } catch (\Throwable $th) {
             throw $th;
         }
