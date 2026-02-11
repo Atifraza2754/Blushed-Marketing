@@ -42,7 +42,11 @@ return [
     |
     */
 
-    'debug' => (bool) env('APP_DEBUG', false),
+    // 'debug' => (bool) env('APP_DEBUG', false),
+    
+    
+    'debug' =>true,
+
 
     /*
     |--------------------------------------------------------------------------
@@ -70,7 +74,15 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+     //'timezone' => 'Asia/Karachi',
+     
+     'timezone' => env('APP_TIMEZONE', 'UTC'),
+
+    
+    // Asia/Karachi ki jagah ye likhein:
+     //'timezone' => 'America/New_York',
+         //'timezone' => 'UTC',
+
 
     /*
     |--------------------------------------------------------------------------

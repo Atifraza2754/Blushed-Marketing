@@ -4,6 +4,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Carbon\Carbon;
 
 class JobMember extends Model
 {
@@ -24,6 +25,18 @@ class JobMember extends Model
         'deleted_at',
     ];
 
+     protected static function booted()
+    {
+        static::creating(function ($member) {
+            $nowEST = Carbon::now('America/New_York');
+            $member->created_at = $nowEST;
+            $member->updated_at = $nowEST;
+        });
+
+        static::updating(function ($member) {
+            $member->updated_at = Carbon::now('America/New_York');
+        });
+    }
 
     /*
     |========================================================

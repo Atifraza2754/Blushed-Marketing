@@ -31,6 +31,7 @@ use Illuminate\Support\Facades\DB;
 use URL;
 use App\Models\WorkHistory;
 
+
 class ShiftsService extends BaseService
 {
     protected $notification_service;
@@ -671,9 +672,19 @@ class ShiftsService extends BaseService
     public function update_job_status_for_user($status, $jobId)
     {
         $check = JobMember::where('job_id', $jobId)
-            ->where('user_id', Auth::user()->id)->update([
-                'status' => $status
-            ]);
+            ->where('user_id', Auth::user()->id)
+            ->first();
+        
+        if ($check) {
+            $check->status = $status;
+
+            $check->save(); // model events + EST respected
+            $check = true;
+        } else {
+            $check = false;
+        }
+            
+            
         $quiz = Job::join('brands', 'brands.title', '=', 'jobs_c.brand')
             ->join('quizzes', 'quizzes.brand_id', '=', 'brands.id')
             ->where('jobs_c.id', $jobId)
@@ -690,8 +701,13 @@ class ShiftsService extends BaseService
         $data['count'] = $quiz[0]['counts'] ?? 1;
         $data['brand'] = $quiz[0]['brand'] ?? '';
         $data['account'] = $quiz[0]['account'] ?? '';
-        $data['date'] = date('Y-m-d');
-        $data['time'] = date('H:i a');
+        //$data['date'] = date('Y-m-d');
+        //$data['time'] = date('H:i a');
+        $nowEST = Carbon::now('America/New_York');
+
+        $data['date'] = $nowEST->format('Y-m-d');
+        $data['time'] = $nowEST->format('h:i a');
+        
         if ($check) {
             return [
                 'status' => 200,

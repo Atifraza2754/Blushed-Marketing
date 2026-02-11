@@ -9,7 +9,7 @@
 
 <?php
 
-$userTimezone = config('app.timezone');
+$userTimezone = 'America/New_York'; // EST timezone
 
 
 ?>
@@ -221,12 +221,12 @@ $userTimezone = config('app.timezone');
                         <p class="validation"></p>
                         <div class="col-lg-6 col-md-6 col-12">
                             <div class="form-floating  w-100 check_in_div">
-                                <input type="text" value="{{ date('H:i:s') }}" readonly name="check_in" disabled
+                                <input type="text" value="{{ Carbon::now($userTimezone)->format('H:i:s') }}" readonly name="check_in" disabled
                                     class="form-control sign-input " id="check_in_input">
                                 <label for="floatingInput" class="sign-label">Check In Time</label>
                             </div>
                             <div class="form-floating  w-100 check_out_div d-none">
-                                <input type="text" value="{{ date('H:i:s') }}" readonly name="check_time" disabled
+                                <input type="text" value="{{ Carbon::now($userTimezone)->format('H:i:s') }}" readonly name="check_time" disabled
                                     class="form-control sign-input " id="check_out_input">
                                 <label for="floatingInput" class="sign-label">Check Out Time</label>
                             </div>

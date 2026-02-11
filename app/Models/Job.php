@@ -33,6 +33,8 @@ class Job extends Model
     //     'shift_start',
     //     'shift_end',
     // ];
+    
+     public $timestamps = false;
     protected $guarded = [];
 
     protected $hidden = [
@@ -40,6 +42,20 @@ class Job extends Model
         'updated_at',
         'deleted_at',
     ];
+    
+    
+    protected static function booted()
+{
+    static::updating(function ($job) {
+        $job->updated_at = Carbon::now('America/New_York');
+    });
+
+    static::creating(function ($job) {
+        $nowEST = Carbon::now('America/New_York');
+        $job->created_at = $nowEST;
+        $job->updated_at = $nowEST;
+    });
+}
 
 
     /*

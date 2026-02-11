@@ -7,6 +7,8 @@ use Date;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Carbon\Carbon;
+
 
 class JobsImport implements ToModel, WithHeadingRow
 {
@@ -41,32 +43,39 @@ class JobsImport implements ToModel, WithHeadingRow
             $shifttime = $this->formatShift($row['scheduled_time']);
             $this->successCount++;
             // Save the job as the time is valid
-            return new Job([
-                'user_id' => Auth::id(),
-                'date' => $formated_date,
-                'account' => $row['account'],
-                'address' => $row['address'],
-                'contact' => $row['contact'],
-                'phone' => $row['phone'],
-                'scheduled_time' => $row['scheduled_time'],
-                'shift_start' => $shifttime['shift_start'],
-                'shift_end' => $shifttime['shift_end'],
-                'timezone' => $row['timezone'],
-                'email' => $row['email'],
-                'method_of_communication' => $row['method_of_communication'],
-                'brand' => $row['brand'],
-                'skus' => $row['skus'],
-                'samples_requested' => $row['samples_requested'] ?? false,
-                'reschedule' => $row['reschedule'] ?? false,
-                'added_to_homebase' => $row['added_to_homebase'] ?? false,
-                'confirmed' => $row['confirmed'] ?? false,
-                'confirmed' => $row['confirmed'] ?? false,
-                'notes' => $row['notes'] ?? false,
-                'how_to_serve' => $row['how_to_serve'] ?? false,
-                'supplies_needed' => $row['supplies_needed'] ?? false,
-                'attire' => $row['attire'] ?? false,
-                'is_published' => false,
-            ]);
+            
+            $nowEST = Carbon::now('America/New_York')->format('Y-m-d H:i:s');
+
+return new Job([
+    'user_id' => Auth::id(),
+    'date' => $formated_date,
+    'account' => $row['account'],
+    'address' => $row['address'],
+    'contact' => $row['contact'],
+    'phone' => $row['phone'],
+    'scheduled_time' => $row['scheduled_time'],
+    'shift_start' => $shifttime['shift_start'],
+    'shift_end' => $shifttime['shift_end'],
+    'timezone' => $row['timezone'],
+    'email' => $row['email'],
+    'method_of_communication' => $row['method_of_communication'],
+    'brand' => $row['brand'],
+    'skus' => $row['skus'],
+    'samples_requested' => $row['samples_requested'] ?? false,
+    'reschedule' => $row['reschedule'] ?? false,
+    'added_to_homebase' => $row['added_to_homebase'] ?? false,
+    'confirmed' => $row['confirmed'] ?? false,
+    'notes' => $row['notes'] ?? null,
+    'how_to_serve' => $row['how_to_serve'] ?? null,
+    'supplies_needed' => $row['supplies_needed'] ?? null,
+    'attire' => $row['attire'] ?? null,
+    'is_published' => false,
+
+    // ✅ GUARANTEED SAME TIME
+    'created_at' => $nowEST,
+    'updated_at' => $nowEST,
+]);
+
         } else {
             // Invalid time format, increment failure count and skip this row
             $this->failureCount++;

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class WorkHistory extends Model
 {
@@ -37,6 +38,19 @@ class WorkHistory extends Model
         'grand_total',
         'is_allownce_save',
     ];
+    
+     protected static function booted()
+    {
+        static::creating(function ($work) {
+            $nowEST = Carbon::now('America/New_York');
+            $work->created_at = $nowEST;
+            $work->updated_at = $nowEST;
+        });
+
+        static::updating(function ($work) {
+            $work->updated_at = Carbon::now('America/New_York');
+        });
+    }
 
     public function job()
     {
