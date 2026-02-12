@@ -140,13 +140,37 @@
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 mb-3">
+                <!--<div class="pay-card">-->
+                <!--    <h6 class="w-600">User Clock Time</h6>-->
+                <!--    <p class="text-muted mb-1">{{ $data->date ? date('D M d, Y', strtotime($data->date)) : '-' }}</p>-->
+                <!--    <p class="mb-1 f-14">{{ date('h:i a', strtotime($data->check_in)) }} – <span class="text-primary-pink">Clock In</span></p>-->
+                <!--    <p class="mb-1 f-14">{{ date('h:i a', strtotime($data->check_out)) }} – <span class="text-primary-pink">Clock Out</span></p>-->
+                <!--    <small class="text-primary-pink">2 hours shift</small>-->
+                <!--</div>-->
+                
                 <div class="pay-card">
-                    <h6 class="w-600">User Clock Time</h6>
-                    <p class="text-muted mb-1">{{ $data->date ? date('D M d, Y', strtotime($data->date)) : '-' }}</p>
-                    <p class="mb-1 f-14">{{ date('h:i a', strtotime($data->check_in)) }} – <span class="text-primary-pink">Clock In</span></p>
-                    <p class="mb-1 f-14">{{ date('h:i a', strtotime($data->check_out)) }} – <span class="text-primary-pink">Clock Out</span></p>
-                    <small class="text-primary-pink">2 hours shift</small>
-                </div>
+    <h6 class="w-600">User Clock Time</h6>
+    <p class="text-muted mb-1">{{ $data->date ? date('D M d, Y', strtotime($data->date)) : '-' }}</p>
+    <p class="mb-1 f-14">{{ date('h:i a', strtotime($data->check_in)) }} – <span class="text-primary-pink">Clock In</span></p>
+    <p class="mb-1 f-14">{{ date('h:i a', strtotime($data->check_out)) }} – <span class="text-primary-pink">Clock Out</span></p>
+
+    @php
+        $checkIn = \Carbon\Carbon::parse($data->check_in);
+        $checkOut = \Carbon\Carbon::parse($data->check_out);
+        $shiftHours = $checkOut->diffInMinutes($checkIn); // total minutes
+        $hours = intdiv($shiftHours, 60);
+        $minutes = $shiftHours % 60;
+    @endphp
+
+    <small class="text-primary-pink">
+        {{ $hours }} hr{{ $hours > 1 ? 's' : '' }} 
+        @if($minutes > 0)
+            {{ $minutes }} min
+        @endif 
+        shift
+    </small>
+</div>
+
             </div>
             <div class="col-lg-3 col-md-6 mb-3">
                 <div class="pay-card">
@@ -156,14 +180,18 @@
                 </div>
             </div>
 
-            <div class="col-lg-3 col-md-6 mb-3">
-                <div class="pay-card">
-                    <h6 class="w-600">Pending Recap Deduction</h6>
-                    <p class="text-muted mb-1">Hours Pending: {{ $hoursPending }} hrs</p>
-                    <p class="text-primary-pink mb-0">Deduction: $<span id="recap-deduction">{{ $recapDeduction }}</span></p>
-                    <small class="text-muted">Automatically applied for pending recaps</small>
+            {{--
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="pay-card">
+                        <h6 class="w-600">Pending Recap Deduction</h6>
+                        <p class="text-muted mb-1">Hours Pending: {{ $hoursPending }} hrs</p>
+                        <p class="text-primary-pink mb-0">
+                            Deduction: $<span id="recap-deduction">{{ $recapDeduction }}</span>
+                        </p>
+                        <small class="text-muted">Automatically applied for pending recaps</small>
+                    </div>
                 </div>
-            </div>
+                --}}
 
         </div>
 
@@ -203,10 +231,16 @@
                     <input type="number" name="out_of_pocket" class="pay-input pay-calc" value="{{ $data->out_of_pocket_expense ?? 0 }}">
                 </div>
 
+            {{--
                 <div class="d-flex align-items-center mb-4 flex-wrap">
                     <label class="pay-label">Deductions:</label>
-                    <input type="number" name="deductions" class="pay-input pay-calc" value="{{ $data->deduction ?? 0 }}">
+                    <input type="number"
+                           name="deductions"
+                           class="pay-input pay-calc"
+                           value="{{ $data->deduction ?? 0 }}">
                 </div>
+                --}}
+
 
                 <div class="d-flex align-items-center mb-4 flex-wrap">
                     <label class="pay-label">Note:</label>
@@ -347,40 +381,140 @@
 
 @section('customScripts')
 <script>
+// $(document).ready(function() {
+
+//     function calculateTotal() {
+//         const flatRate = parseFloat($('[name="flat_rate"]').val()) || 0;
+//         const sales = parseFloat($('[name="sales_incentives"]').val()) || 0;
+//         const pocket = parseFloat($('[name="out_of_pocket"]').val()) || 0;
+//         const userDeductions = parseFloat($('[name="deductions"]').val()) || 0;
+//         const recapDeduction = parseFloat($('#recap-deduction').text()) || 0;
+
+//         // Total formula includes recap deduction
+//         const total = (flatRate + sales + pocket) - (userDeductions + recapDeduction);
+
+//         $('#display-subtotal').text('$' + total.toFixed(2));
+//         $('#sub_total_val').val(total.toFixed(2));
+
+//         // Show recap deduction also in deductions input (optional)
+//         $('[name="deductions"]').val(userDeductions + recapDeduction);
+//     }
+
+//     // Recalculate total on any input change
+//     $('.pay-calc, [name="deductions"]').on('input', calculateTotal);
+
+//     // Initial calculation
+//     calculateTotal();
+
+//     // Save Logic
+//     $('.save').on('click', function() {
+//         let id = $("#payment_id").val();
+//         let data = {
+//             id: id,
+//             flatRate: $('[name="flat_rate"]').val(),
+//             salesIncentives: $('[name="sales_incentives"]').val(),
+//             outOfPocket: $('[name="out_of_pocket"]').val(),
+//             deductions: $('[name="deductions"]').val(),
+//             note: $('[name="note"]').val(),
+//             subTotal: $('#sub_total_val').val()
+//         };
+
+//         Swal.fire({
+//             title: 'Save Changes?',
+//             icon: 'question',
+//             showCancelButton: true,
+//             confirmButtonText: 'Yes, Save'
+//         }).then((result) => {
+//             if (result.isConfirmed) {
+//                 $.ajax({
+//                     url: "/payments-detail/update/" + id,
+//                     type: "POST",
+//                     data: data,
+//                     headers: {
+//                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+//                     },
+//                     success: function(res) {
+//                         if (res.status == 200) {
+//                             Swal.fire('Saved!', '', 'success').then(() => location.reload());
+//                         }
+//                     }
+//                 });
+//             }
+//         });
+//     });
+
+//     // Pay Now Logic
+//     $(document).on('click', '.pay-now', function() {
+//         let userPaymenthistory = $(this).data('user-payment-job-history');
+//         let subTotal = $('#sub_total_val').val();
+
+//         Swal.fire({
+//             title: 'Confirm Payment?',
+//             text: 'This will mark payment as PAID',
+//             icon: 'warning',
+//             showCancelButton: true,
+//             confirmButtonText: 'Yes, Pay'
+//         }).then((result) => {
+//             if (result.isConfirmed) {
+//                 $.ajax({
+//                     url: "/payments/pay-now",
+//                     type: "POST",
+//                     data: {
+//                         userPaymenthistory: userPaymenthistory,
+//                         total_paid: subTotal
+//                     },
+//                     headers: {
+//                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+//                     },
+//                     success: function(res) {
+//                         if (res.status === 200) {
+//                             Swal.fire('Paid!', 'Payment marked as paid.', 'success')
+//                                 .then(() => location.reload());
+//                         }
+//                     }
+//                 });
+//             }
+//         });
+//     });
+// });
+</script>
+
+
+<script>
 $(document).ready(function() {
 
     function calculateTotal() {
         const flatRate = parseFloat($('[name="flat_rate"]').val()) || 0;
         const sales = parseFloat($('[name="sales_incentives"]').val()) || 0;
         const pocket = parseFloat($('[name="out_of_pocket"]').val()) || 0;
-        const userDeductions = parseFloat($('[name="deductions"]').val()) || 0;
-        const recapDeduction = parseFloat($('#recap-deduction').text()) || 0;
 
-        // Total formula includes recap deduction
-        const total = (flatRate + sales + pocket) - (userDeductions + recapDeduction);
+        // ============================
+        // ✅ Deduction disabled
+        // ============================
+        const total = flatRate + sales + pocket;
 
         $('#display-subtotal').text('$' + total.toFixed(2));
         $('#sub_total_val').val(total.toFixed(2));
-
-        // Show recap deduction also in deductions input (optional)
-        $('[name="deductions"]').val(userDeductions + recapDeduction);
     }
 
-    // Recalculate total on any input change
-    $('.pay-calc, [name="deductions"]').on('input', calculateTotal);
+    // Recalculate on allowed fields only
+    $('.pay-calc').on('input', calculateTotal);
 
     // Initial calculation
     calculateTotal();
 
-    // Save Logic
+    // ============================
+    // SAVE
+    // ============================
     $('.save').on('click', function() {
         let id = $("#payment_id").val();
+
         let data = {
             id: id,
             flatRate: $('[name="flat_rate"]').val(),
             salesIncentives: $('[name="sales_incentives"]').val(),
             outOfPocket: $('[name="out_of_pocket"]').val(),
-            deductions: $('[name="deductions"]').val(),
+            deductions: 0, // 🔒 forced zero
             note: $('[name="note"]').val(),
             subTotal: $('#sub_total_val').val()
         };
@@ -401,7 +535,8 @@ $(document).ready(function() {
                     },
                     success: function(res) {
                         if (res.status == 200) {
-                            Swal.fire('Saved!', '', 'success').then(() => location.reload());
+                            Swal.fire('Saved!', '', 'success')
+                                .then(() => location.reload());
                         }
                     }
                 });
@@ -409,7 +544,9 @@ $(document).ready(function() {
         });
     });
 
-    // Pay Now Logic
+    // ============================
+    // PAY NOW
+    // ============================
     $(document).on('click', '.pay-now', function() {
         let userPaymenthistory = $(this).data('user-payment-job-history');
         let subTotal = $('#sub_total_val').val();
@@ -442,7 +579,9 @@ $(document).ready(function() {
             }
         });
     });
+
 });
 </script>
+
 
 @endsection

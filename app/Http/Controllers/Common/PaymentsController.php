@@ -28,7 +28,7 @@ class PaymentsController extends Controller
 
 
             /* ======================================================
-        | CASE 1: LOGIN USER (role_id = 5) → SAME AS OLD
+        | CASE 1: LOGIN USER (role_id = 5) â†’ SAME AS OLD
         ====================================================== */
             if (Auth::user()->role_id == 5) {
 
@@ -51,7 +51,7 @@ class PaymentsController extends Controller
             }
 
             /* ======================================================
-        | CASE 2: ADMIN / OTHER ROLES → NEW & CORRECT
+        | CASE 2: ADMIN / OTHER ROLES â†’ NEW & CORRECT
         ====================================================== */
 
             $brandId = $request->get('brand_id');
@@ -105,7 +105,7 @@ class PaymentsController extends Controller
         try {
 
             /* ======================================================
-        | CASE 1: LOGIN USER (role_id = 5) → OLD LOGIC SAME
+        | CASE 1: LOGIN USER (role_id = 5) â†’ OLD LOGIC SAME
         ====================================================== */
             if (Auth::user()->role_id == 5) {
 
@@ -176,14 +176,43 @@ class PaymentsController extends Controller
     }
 
 
+// public function paymentDetail($id)
+// {
+//     $data = WorkHistory::with('payment', 'user.userRecaps')->findOrFail($id);
+
+//     // Pending recap deduction calculation
+//     $recap = $data->user->userRecaps
+//         ->where('status', '=', null)
+//         ->first(); // agar multiple pending hai, sirf pehla consider
+
+//     $recapDeduction = 0;
+//     $hoursPending = 0;
+
+//     if ($recap) {
+//         $submittedAt = $recap->created_at ?? $data->job?->date ?? now();
+//         $hoursPending = Carbon::now()->diffInHours(Carbon::parse($submittedAt));
+//         $recapDeduction = floor($hoursPending / 24) * 5; // $5 per 24 hrs
+//     }
+
+//     return view('payments.paying-approved')->with([
+//         'data' => $data,
+//         'recapDeduction' => $recapDeduction,
+//         'hoursPending' => $hoursPending
+//     ]);
+// }
+
+
 public function paymentDetail($id)
 {
     $data = WorkHistory::with('payment', 'user.userRecaps')->findOrFail($id);
 
-    // Pending recap deduction calculation
+    // ================================
+    // ❌ Deduction temporarily disabled
+    // ================================
+    /*
     $recap = $data->user->userRecaps
         ->where('status', '=', null)
-        ->first(); // agar multiple pending hai, sirf pehla consider
+        ->first();
 
     $recapDeduction = 0;
     $hoursPending = 0;
@@ -191,8 +220,13 @@ public function paymentDetail($id)
     if ($recap) {
         $submittedAt = $recap->created_at ?? $data->job?->date ?? now();
         $hoursPending = Carbon::now()->diffInHours(Carbon::parse($submittedAt));
-        $recapDeduction = floor($hoursPending / 24) * 5; // $5 per 24 hrs
+        $recapDeduction = floor($hoursPending / 24) * 5;
     }
+    */
+
+    // ✅ Values forced to zero so flow never breaks
+    $recapDeduction = 0;
+    $hoursPending = 0;
 
     return view('payments.paying-approved')->with([
         'data' => $data,
@@ -228,7 +262,7 @@ public function paymentDetail($id)
         $workHistory->update($data);
 
         /* =========================================
-       🔔 NOTIFICATION + EMAIL TO USER
+       ðŸ”” NOTIFICATION + EMAIL TO USER
     ========================================= */
 
         $notificationService->notify_user([
@@ -256,7 +290,7 @@ public function paymentDetail($id)
         ]);
 
         /* =========================================
-       🔔 NOTIFICATION + EMAIL TO USER
+       ðŸ”” NOTIFICATION + EMAIL TO USER
     ========================================= */
 
         $notificationService->notify_user([

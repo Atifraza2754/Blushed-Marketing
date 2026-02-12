@@ -427,7 +427,7 @@ class ShiftsService extends BaseService
             $job = Job::find($job_id);
             if (!$job) continue;
 
-            // 🔄 Toggle publish status
+            // ðŸ”„ Toggle publish status
             $job->is_published = !$job->is_published;
             $job->save();
 

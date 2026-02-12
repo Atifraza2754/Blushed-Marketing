@@ -117,7 +117,7 @@ $payments = WorkHistory::where('user_id', Auth::id())
                                 <th>Date</th>
                                 <th>Paid</th>
                                 <th>Incentive</th>
-                                <th>Deductions</th>
+                                <!--<th>Deductions</th>-->
                                 <th>Status</th>
                                 <th>Notes</th>
                             </tr>
@@ -139,20 +139,20 @@ $payments = WorkHistory::where('user_id', Auth::id())
                                     <td>{{ \Carbon\Carbon::parse($p->date)->format('d M Y') }}</td>
                                     <td>${{ number_format($p->total_paid ?? 0, 2) }}</td>
                                     <td>${{ number_format($p->sale_incentive ?? 0, 2) }}</td>
-                                    <td>
-                                        <div class="deduction">
-                                            <span class="text-danger">-${{ number_format($p->deduction ?? 0, 2) }}</span>
-                                            <div class="deduction-text">
-                                                <h6>Payment Breakdown</h6>
-                                                <p>Date: <span>{{ \Carbon\Carbon::parse($p->date)->format('d M Y') }}</span></p>
-                                                <p>Paid Amount: <span>${{ number_format($p->total_paid ?? 0, 2) }}</span></p>
-                                                <p>Incentives: <span>${{ number_format($p->sale_incentive ?? 0, 2) }}</span></p>
-                                                <p>Deductions: <span class="text-danger">-${{ number_format($p->deduction ?? 0, 2) }}</span></p>
-                                                <p>Out of Pocket: <span>${{ number_format($p->out_of_pocket_expense ?? 0, 2) }}</span></p>
-                                                <p>Status: <span>{{ optional($p->payment)->is_paid ? 'Paid' : 'Awaiting' }}</span></p>
-                                            </div>
-                                        </div>
-                                    </td>
+                                    <!--<td>-->
+                                    <!--    <div class="deduction">-->
+                                    <!--        <span class="text-danger">-${{ number_format($p->deduction ?? 0, 2) }}</span>-->
+                                    <!--        <div class="deduction-text">-->
+                                    <!--            <h6>Payment Breakdown</h6>-->
+                                    <!--            <p>Date: <span>{{ \Carbon\Carbon::parse($p->date)->format('d M Y') }}</span></p>-->
+                                    <!--            <p>Paid Amount: <span>${{ number_format($p->total_paid ?? 0, 2) }}</span></p>-->
+                                    <!--            <p>Incentives: <span>${{ number_format($p->sale_incentive ?? 0, 2) }}</span></p>-->
+                                    <!--            <p>Deductions: <span class="text-danger">-${{ number_format($p->deduction ?? 0, 2) }}</span></p>-->
+                                    <!--            <p>Out of Pocket: <span>${{ number_format($p->out_of_pocket_expense ?? 0, 2) }}</span></p>-->
+                                    <!--            <p>Status: <span>{{ optional($p->payment)->is_paid ? 'Paid' : 'Awaiting' }}</span></p>-->
+                                    <!--        </div>-->
+                                    <!--    </div>-->
+                                    <!--</td>-->
                                     <td>
                                         <span class="status-badge {{ optional($p->payment)->is_paid ? 'status-paid' : 'status-pending' }}">
                                             {{ optional($p->payment)->is_paid ? 'Paid' : 'Awaiting Payment' }}

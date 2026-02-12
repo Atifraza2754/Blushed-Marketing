@@ -37,8 +37,12 @@ class JobsImport implements ToModel, WithHeadingRow
         if (preg_match($timePattern, $row['scheduled_time'])) {
 
             $date = ($row['date']);
-            $unixTimestamp = ($date - 25569) * 86400; // Default 1900 system
-            $formated_date = date('Y-m-d', $unixTimestamp);
+            if (is_numeric($date)) {
+                $unixTimestamp = ($date - 25569) * 86400; // Excel serial to UNIX seconds
+                $formated_date = gmdate('Y-m-d', (int) floor($unixTimestamp));
+            } else {
+                $formated_date = Carbon::parse($date)->format('Y-m-d');
+            }
 
             $shifttime = $this->formatShift($row['scheduled_time']);
             $this->successCount++;

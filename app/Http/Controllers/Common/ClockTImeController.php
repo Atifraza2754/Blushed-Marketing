@@ -347,19 +347,17 @@ public function submit(Request $request)
                 return back();
             }
 
-            $arr = [
+           $arr = [
                 'is_confirm' => 1,
                 'image' => $request->image,
                 'user_working_hour' => 0,
-                // Convert provided check_time to EST or use now EST
-                'check_in' => $request->check_time 
-                                ? Carbon::parse($request->check_time)->setTimezone('America/New_York')->format('Y-m-d H:i:s')
-                                : Carbon::now('America/New_York')->format('Y-m-d H:i:s'),
+                'check_in' => Carbon::now('America/New_York')->format('Y-m-d H:i:s'),
                 'check_out' => null,
                 'lat' => $request->lat ?? '',
                 'lon' => $request->lon ?? '',
                 'is_active_shift' => 1, // 🔴 USER BUSY
             ];
+
         }
 
         /*============================
@@ -376,20 +374,20 @@ public function submit(Request $request)
             }
 
             // EST-based parsing
-            $checkIn = Carbon::parse($work_history->check_in)->setTimezone('America/New_York');
-            $checkOut = $request->check_time 
-                            ? Carbon::parse($request->check_time)->setTimezone('America/New_York')
-                            : Carbon::now('America/New_York');
+         $checkIn  = Carbon::parse($work_history->check_in, 'America/New_York');
+        $checkOut = Carbon::now('America/New_York'); // ✅ EST enforced
 
-            $timePassed = $checkIn->diff($checkOut)->format('%H:%I:%S');
 
+            $interval = $checkIn->diff($checkOut);
+            $timePassed = $interval->format('%H:%I:%S');
+        
             $arr = [
                 'user_working_hour' => $timePassed,
                 'check_out' => $checkOut->format('Y-m-d H:i:s'),
-                'is_active_shift' => 0, // ✅ USER AVAILABLE AGAIN
+                'is_active_shift' => 0,
                 'is_complete' => 1,
             ];
-
+            
             UserPaymentJobHistory::create([
                 'job_id' => $work_history->job_id,
                 'user_id' => $work_history->user_id,

@@ -92,15 +92,14 @@ $userTimezone = 'America/New_York'; // EST timezone
             @if ($workHistory->check_in != null && $workHistory->check_out != null && $workHistory->check_out != '00:00:00')
                 <button type="button" class="main-btn-sm mt-3" disabled style="width: fit-content;">Completed</button>
             @else
-                @if ($workHistory->check_in != null && $workHistory->check_in != 0)
-                    @if ($currentTime->greaterThan($endHour))
-                        <button type="button" class="main-btn-sm mt-3 check_in_btn"
-                            data-checkType="check-out" style="width: fit-content;">Check Out</button>
-                    @endif
+                @if ($workHistory && $workHistory->check_in)
+                    <button type="button" class="main-btn-sm mt-3 check_in_btn"
+                        data-checkType="check-out" style="width: fit-content;">Check Out</button>
                 @else
                     <button type="button" class="main-btn-sm mt-3 check_in_btn"
                         data-checkType="check-in" style="width: fit-content;">Check In</button>
                 @endif
+
             @endif
         @else
             @empty($nextShift)
