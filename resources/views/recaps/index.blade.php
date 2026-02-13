@@ -124,7 +124,6 @@
                 {{-- table --}}
 
                 <div class="col-md-12">
-
                     <div class="table-responsive">
                         <table class="table dashboard-table display recap-table">
                             <thead>
@@ -247,7 +246,7 @@
                                             </td>
                                         @endif
                                         <td>
-                                            <div class="d-flex align-items-center justify-content-start">
+                                            <div class="d-flex align-items-center justify-content-start gap-2">
                                                 <div class="eye  table-action cursor-pointer">
                                                     @if (Auth::user()->role_id == 5)
                                                         <a href="{{ URL::to("/user/recap/$uc->id") }}" class="no-decoration">
@@ -267,6 +266,9 @@
                                                         </a>
                                                     @endif
                                                 </div>
+                                                @if ($uc->status == 'approved' || $uc->status == 'approved-with-edit')
+                                                <a href="#" class="download-recap" data-recap-id="{{ $uc->id }}" title="Download as Excel">Download</a>
+                                                @endif
                                             </div>
                                         </td>
                                         <td>
@@ -339,6 +341,8 @@
             // }
         });
 
+        
+
         function trainingApprove(id) {
             console.log(id);
             Swal.fire({
@@ -393,6 +397,21 @@
                 }
             })
         }
+
+        // Download recap as Excel
+        $(document).on('click', '.download-recap', function(e) {
+            e.preventDefault();
+            const recapId = $(this).data('recap-id');
+            
+            // Create a form and submit it
+            const form = $('<form>')
+                .attr('method', 'GET')
+                .attr('action', '/recap/' + recapId + '/download-excel')
+                .appendTo('body');
+            
+            form.submit();
+            form.remove();
+        });
 
     </script>
 @endsection

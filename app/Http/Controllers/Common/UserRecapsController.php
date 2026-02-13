@@ -19,7 +19,9 @@ use App\Models\LeadUser;
 use App\Models\Recap;
 use App\Models\RecapQuestion;
 use App\Services\NotificationsService;
+use App\Exports\RecapExport;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
@@ -567,5 +569,52 @@ class UserRecapsController extends Controller
     }
 }
 
+    /*
+    |===========================================================
+    | Download approved recap as Excel file
+    |===========================================================
+    */
+    public function downloadRecapExcel($id)
+    {
+        try {
+            // Get the user recap
+            $userRecap = UserRecap::find($id);
+
+            if (!$userRecap) {
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'Recap not found'
+                ]);
+            }
+
+            // Check if recap is approved
+            if (!in_array($userRecap->status, ['approved', 'approved-with-edit'])) {
+                return response()->json([
+                    'status' => 403,
+                    'message' => 'Only approved recaps can be downloaded'
+                ]);
+            }
+
+            $user = $userRecap->user;
+            $recap = $userRecap->recap;
+            
+            // Generate filename
+            $filename = 'Recap_' . $user->name . '_' . date('Y-m-d_His') . '.xlsx';
+
+            // Export and download
+            return Excel::download(new RecapExport($id), $filename);
+
+        } catch (\Throwable $th) {
+            \Log::error('Error downloading recap: ' . $th->getMessage());
+            return response()->json([
+                'status' => 500,
+                'message' => 'Error downloading recap'
+            ]);
+        }
+    }
+
+    /**
+     * Download multiple approved recaps as a single Excel file
+     */
 }
 

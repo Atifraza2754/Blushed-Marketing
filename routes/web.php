@@ -149,6 +149,7 @@ Route::group(
         /*-------- RECAPS -------*/
         Route::get('recaps/{slug?}', [UserRecapsController::class, 'index']);
         Route::get('recap/{id}', [UserRecapsController::class, 'edit']);
+        Route::get('recap/{id}/download-excel', [UserRecapsController::class, 'downloadRecapExcel']);
         Route::post('recap/{id}/reject-with-edit', [UserRecapsController::class, 'rejectWithEdit']);
         Route::post('recap/{id}/approve-with-edit', [UserRecapsController::class, 'approveWithEdit']);
         Route::post('recap/{id}/approve-with-feedback', [UserRecapsController::class, 'approveWithFeedback']);
