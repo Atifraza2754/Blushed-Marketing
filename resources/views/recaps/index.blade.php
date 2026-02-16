@@ -267,7 +267,15 @@
                                                     @endif
                                                 </div>
                                                 @if ($uc->status == 'approved' || $uc->status == 'approved-with-edit')
-                                                <a href="#" class="download-recap" data-recap-id="{{ $uc->id }}" title="Download as Excel">Download</a>
+                                                <a href="#" class="download-recap" data-recap-id="{{ $uc->id }}" title="Download as Excel">Download</a>|
+                                                @if ($uc->status == 'approved' || $uc->status == 'approved-with-edit')
+                                                        <a href="#" 
+                                                        class="view-recap-drive" 
+                                                        data-recap-id="{{ $uc->id }}">
+                                                        View
+                                                        </a>
+                                                    @endif
+
                                                 @endif
                                             </div>
                                         </td>
@@ -412,6 +420,14 @@
             form.submit();
             form.remove();
         });
+
+        $(document).on('click', '.view-recap-drive', function(e) {
+    e.preventDefault();
+    const recapId = $(this).data('recap-id');
+
+    window.open('/recap/' + recapId + '/view-excel-drive', '_blank');
+});
+
 
     </script>
 @endsection

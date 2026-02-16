@@ -156,6 +156,7 @@ Route::group(
         Route::post('recap/{id}/approve-with-rating', [UserRecapsController::class, 'approveWithRating']);
         Route::post('recap/approve-with-rating/multiple', [UserRecapsController::class, 'approveWithRatingMultiple']);
         Route::post('recap/{id}', [UserRecapsController::class, 'storeRecapAnswers']);
+        Route::get('/recap/{id}/view-excel-drive', [UserRecapsController::class, 'viewRecapExcelOnDrive']);
 
         Route::post('/recaps/notsubmitted/', [UserRecapsController::class, 'unsubmittedRecaps']);
 

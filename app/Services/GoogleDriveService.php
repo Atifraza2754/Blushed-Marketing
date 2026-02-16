@@ -22,20 +22,50 @@ class GoogleDriveService
         $this->drive = new Drive($this->client);
     }
 
-    public function uploadFile($filePath, $fileName)
-    {
-        $file = new Drive\DriveFile();
-        $file->setName($fileName);
-        $file->setParents([env('GOOGLE_DRIVE_FOLDER_ID')]);
+    // public function uploadFile($filePath, $fileName)
+    // {
+    //     $file = new Drive\DriveFile();
+    //     $file->setName($fileName);
+    //     $file->setParents([env('GOOGLE_DRIVE_FOLDER_ID')]);
 
-        $content = file_get_contents($filePath);
-        $uploadedFile = $this->drive->files->create($file, [
-            'data' => $content,
-            'mimeType' => 'application/pdf',
-            'uploadType' => 'multipart',
-            'fields' => 'id'
-        ]);
+    //     $content = file_get_contents($filePath);
+    //     $uploadedFile = $this->drive->files->create($file, [
+    //         'data' => $content,
+    //         'mimeType' => 'application/pdf',
+    //         'uploadType' => 'multipart',
+    //         'fields' => 'id'
+    //     ]);
 
-        return $uploadedFile->id;
-    }
+    //     return $uploadedFile->id;
+    // }
+
+
+    public function uploadFile($filePath, $fileName, $mimeType = 'application/pdf')
+{
+    $file = new Drive\DriveFile();
+    $file->setName($fileName);
+    $file->setParents([env('GOOGLE_DRIVE_FOLDER_ID')]);
+
+    $content = file_get_contents($filePath);
+
+    $uploadedFile = $this->drive->files->create($file, [
+        'data' => $content,
+        'mimeType' => $mimeType,
+        'uploadType' => 'multipart',
+        'fields' => 'id'
+    ]);
+
+    // Make file public
+    $permission = new Drive\Permission([
+        'type' => 'anyone',
+        'role' => 'reader'
+    ]);
+
+    $this->drive->permissions->create($uploadedFile->id, $permission);
+
+    return $uploadedFile->id;
+}
+
+
+
 }

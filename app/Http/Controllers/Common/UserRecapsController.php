@@ -40,12 +40,12 @@ class UserRecapsController extends Controller
         RecapsService $rs,
         BrandsService $bs,
         NotificationsService $ns,
-        // GoogleDriveService $googleDriveService
+        GoogleDriveService $googleDriveService
     ) {
         $this->recaps_service = $rs;
         $this->brands_service = $bs;
         $this->notification_service = $ns;
-        // $this->googleDriveService = $googleDriveService;
+        $this->googleDriveService = $googleDriveService;
 //
     }
 
@@ -612,6 +612,47 @@ class UserRecapsController extends Controller
             ]);
         }
     }
+
+    public function viewRecapExcelOnDrive($id)
+    {
+        try {
+
+            $userRecap = UserRecap::find($id);
+
+            if (!$userRecap) {
+                return back()->with('error','Recap not found');
+            }
+
+            if (!in_array($userRecap->status, ['approved', 'approved-with-edit'])) {
+                return back()->with('error','Only approved recaps allowed');
+            }
+
+            $user = $userRecap->user;
+            $filename = 'Recap_' . $user->name . '_' . date('YmdHis') . '.xlsx';
+
+            // 1️⃣ Store temporarily
+            $localPath = storage_path('app/public/' . $filename);
+            Excel::store(new RecapExport($id), 'public/' . $filename);
+
+            // 2️⃣ Upload to Drive
+            $fileId = $this->googleDriveService->uploadFile(
+                $localPath,
+                $filename,
+                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            );
+
+            // 3️⃣ Delete local file
+            Storage::delete('public/' . $filename);
+
+            // 4️⃣ Redirect to Google Sheet Viewer
+            return redirect("https://docs.google.com/spreadsheets/d/{$fileId}/edit");
+
+        } catch (\Throwable $e) {
+            \Log::error($e->getMessage());
+            return back()->with('error','Something went wrong');
+        }
+    }
+
 
     /**
      * Download multiple approved recaps as a single Excel file
