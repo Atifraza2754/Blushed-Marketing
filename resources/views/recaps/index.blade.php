@@ -25,6 +25,9 @@
 
                     <div class="d-flex align-items-center my-lg-0 my-3 justify-content-lg-end justify-content-around">
 
+                        <button id="multi-download" class="btn btn-success btn-sm d-none">Download Recaps</button>
+                        <button id="multi-view" class="btn btn-primary btn-sm d-none">View Recaps</button>
+
                         <button id="approveTraining" class="btn btn-warning btn-sm  float-end text-white
                                     ">Approve Recap</button>
 
@@ -154,7 +157,7 @@
                                     <tr class="">
                                         @if($uc->status == 'approved')
 
-                                            <td><input type="checkbox" class="row-checkbox" value="{{ $uc->id }}"></td>
+                                            <td><input type="checkbox" class="row-checkbox" data-brand="{{ $uc->recap->brand->title }}" value="{{ $uc->id }}"></td>
                                         @else
                                             <td><input type="hidden" class="row-checkbox" value="{{ $uc->id }}"></td>
 
@@ -222,13 +225,15 @@
                                         </td>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                @if (Auth::user()->role_id == 5)
-
-                                                    <p class="mb-0 pb-0">{{ $uc->recap->event_date }}</p>
-                                                @else
-                                                    <p class="mb-0 pb-0">{{ $uc->recap->event_date }}</p>
-
-                                                @endif
+                                                @php
+                                                    $eventDate = null;
+                                                    if (!empty($uc->job) && !empty($uc->job->date)) {
+                                                        $eventDate = $uc->job->date;
+                                                    } elseif (!empty($uc->recap) && !empty($uc->recap->event_date)) {
+                                                        $eventDate = $uc->recap->event_date;
+                                                    }
+                                                @endphp
+                                                <p class="mb-0 pb-0">{{ $eventDate ?? '-' }}</p>
                                             </div>
                                         </td>
                                         @if (Auth::user()->role_id == 5)
@@ -266,7 +271,7 @@
                                                         </a>
                                                     @endif
                                                 </div>
-                                                @if ($uc->status == 'approved' || $uc->status == 'approved-with-edit')
+                                                  @if ($uc->status == 'approved' || $uc->status == 'approved-with-edit')
                                                 <a href="#" class="download-recap" data-recap-id="{{ $uc->id }}" title="Download as Excel">Download</a>|
                                                 @if ($uc->status == 'approved' || $uc->status == 'approved-with-edit')
                                                         <a href="#" 
@@ -420,14 +425,108 @@
             form.submit();
             form.remove();
         });
-
+        
+        
+        
         $(document).on('click', '.view-recap-drive', function(e) {
-    e.preventDefault();
-    const recapId = $(this).data('recap-id');
+            e.preventDefault();
+            const recapId = $(this).data('recap-id');
+        
+            window.open('/recap/' + recapId + '/view-excel-drive', '_blank');
+        });
 
-    window.open('/recap/' + recapId + '/view-excel-drive', '_blank');
+    </script>
+
+
+<script>
+    function toggleMultiButtons() {
+    let ids = $('.row-checkbox:checked').map(function () {
+        return $(this).val();
+    }).get();
+
+        if (ids.length > 1) {
+            // collect selected brands (normalize by trimming and lowercasing)
+            const brands = $('.row-checkbox:checked').map(function () {
+                return ($(this).data('brand') || '').toString().trim().toLowerCase();
+            }).get().filter(b => b !== '');
+
+            const uniqueBrands = [...new Set(brands)];
+
+            // show buttons only if all selected belong to the same brand
+            if (uniqueBrands.length === 1) {
+                $('#multi-download').removeClass('d-none');
+                $('#multi-view').removeClass('d-none');
+            } else {
+                $('#multi-download').addClass('d-none');
+                $('#multi-view').addClass('d-none');
+            }
+        } else {
+            $('#multi-download').addClass('d-none');
+            $('#multi-view').addClass('d-none');
+        }
+}
+
+// On checkbox change
+$(document).on('change', '.row-checkbox, #selectAll', function () {
+    toggleMultiButtons();
 });
 
 
-    </script>
+
+$('#multi-download').on('click', function () {
+
+    let ids = $('.row-checkbox:checked').map(function () {
+        return $(this).val();
+    }).get();
+
+    if(ids.length === 0){
+        alert('No rows selected');
+        return;
+    }
+
+    const form = $('<form>', {
+        method: 'POST',
+        action: '/recap/download-multiple'
+    });
+
+    form.append('<input type="hidden" name="_token" value="' + $('meta[name="csrf-token"]').attr('content') + '">');
+
+    ids.forEach(id => {
+        form.append('<input type="hidden" name="ids[]" value="' + id + '">');
+    });
+
+    $('body').append(form);
+    form.submit();
+});
+
+
+
+$('#multi-view').on('click', function () {
+
+    let ids = $('.row-checkbox:checked').map(function () {
+        return $(this).val();
+    }).get();
+
+    if(ids.length === 0){
+        alert('No rows selected');
+        return;
+    }
+
+    const form = $('<form>', {
+        method: 'POST',
+        action: '/recap/view-multiple',
+        target: '_blank'
+    });
+
+    form.append('<input type="hidden" name="_token" value="' + $('meta[name="csrf-token"]').attr('content') + '">');
+
+    ids.forEach(id => {
+        form.append('<input type="hidden" name="ids[]" value="' + id + '">');
+    });
+
+    $('body').append(form);
+    form.submit();
+});
+
+</script>
 @endsection

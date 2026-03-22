@@ -511,10 +511,10 @@
                         <div class="d-flex flex-column align-content-between">
                             <h3 class="text-gray f-20 w-500">{{ date('D') }}</h3>
                             <p class="f-14 w-500 text-blck">
-                                {{ date('jS F Y') }}
+                                {{ now()->timezone('America/New_York')->format('jS F Y') }}
                             </p>
                             <h2 class="f-32 w-600 text-black mt-4" style="text-wrap: nowrap;">
-                                {{ date('H:i a') }}
+                                {{ now()->timezone('America/New_York')->format('H:i A') }}
                             </h2>
                         </div>
                         {{-- <div class="d-flex justify-content-center align-items-center flex-column mx-auto">

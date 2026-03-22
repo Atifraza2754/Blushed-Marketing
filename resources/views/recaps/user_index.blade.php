@@ -209,19 +209,22 @@
 										</td>
 										<td>
 											<div class="d-flex align-items-center">
-									@if (Auth::user()->role_id == 5)
-
-										<p class="mb-0 pb-0">{{ $uc->recap->event_date }}</p>
-										@else
-										<p class="mb-0 pb-0">{{ $uc->recap->event_date }}</p>
-
-										@endif
-										</div>
+												@php
+													// prefer job date (shift) when available, otherwise use recap event_date
+													$eventDate = null;
+													if (!empty($uc->job) && !empty($uc->job->date)) {
+														$eventDate = $uc->job->date;
+													} elseif (!empty($uc->recap) && !empty($uc->recap->event_date)) {
+														$eventDate = $uc->recap->event_date;
+													}
+												@endphp
+												<p class="mb-0 pb-0">{{ $eventDate ?? '-' }}</p>
+											</div>
 										</td>
 										@if (Auth::user()->role_id == 5)
 											<td>
 												<div class="d-flex align-items-center">
-													<p class="mb-0 pb-0">{{ $uc->recap->due_date }}</p>
+													<p class="mb-0 pb-0">{{ $uc->recap->due_date ?? '-' }}</p>
 												</div>
 											</td>
 										@else

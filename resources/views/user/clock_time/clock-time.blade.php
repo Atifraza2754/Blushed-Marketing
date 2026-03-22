@@ -77,6 +77,9 @@ $userTimezone = 'America/New_York'; // EST timezone
         $givenTime = Carbon::parse($startHour, $userTimezone);
         $endHour = Carbon::parse($endHour, $userTimezone);
         $currentTime = Carbon::now($userTimezone);
+
+         // Show confirm/cancel only when within 30 minutes before shift start
+        $showConfirm = $currentTime->greaterThanOrEqualTo($givenTime->copy()->subMinutes(10));
     @endphp
 
     {{-- Debug (optional) --}}
@@ -87,7 +90,7 @@ $userTimezone = 'America/New_York'; // EST timezone
         'timezone' => $userTimezone
     ], true) }}</pre> --}}
 
-    @if ($currentTime->greaterThan($givenTime))
+    @if ($showConfirm)
         @if ($workHistory != null && $workHistory->is_confirm == 1)
             @if ($workHistory->check_in != null && $workHistory->check_out != null && $workHistory->check_out != '00:00:00')
                 <button type="button" class="main-btn-sm mt-3" disabled style="width: fit-content;">Completed</button>
@@ -111,6 +114,7 @@ $userTimezone = 'America/New_York'; // EST timezone
             @endempty
         @endif
     @endif
+
 </div>
 
 
@@ -222,12 +226,14 @@ $userTimezone = 'America/New_York'; // EST timezone
                             <div class="form-floating  w-100 check_in_div">
                                 <input type="text" value="{{ Carbon::now($userTimezone)->format('H:i:s') }}" readonly name="check_in" disabled
                                     class="form-control sign-input " id="check_in_input">
-                                <label for="floatingInput" class="sign-label">Check In Time</label>
+                                {{-- <label for="floatingInput" class="sign-label">Check In Time</label> --}}
+                                <label for="check_in_input" class="sign-label" id="check_in_label">Check In Time</label>
+
                             </div>
                             <div class="form-floating  w-100 check_out_div d-none">
                                 <input type="text" value="{{ Carbon::now($userTimezone)->format('H:i:s') }}" readonly name="check_time" disabled
                                     class="form-control sign-input " id="check_out_input">
-                                <label for="floatingInput" class="sign-label">Check Out Time</label>
+                                <label for="check_out_input" class="sign-label" id="check_out_label">Check Out Time</label>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-10">
@@ -238,14 +244,14 @@ $userTimezone = 'America/New_York'; // EST timezone
                             </div>
                         </div>
 
-                        <div class="col-lg-12 col-md-12 col-10">
+                        {{-- <div class="col-lg-12 col-md-12 col-10">
                             <div class="form-floating  w-100">
 
                         <input type="file" class="form-control sign-input mt-2" id="imageInput" name="file_image" value="">
 
                                 <label for="floatingInput" class="sign-label">Upload Image</label>
                             </div>
-                        </div>
+                        </div> --}}
 
 
                         <div class="col-lg-12 col-md-6 col-10">
@@ -575,16 +581,25 @@ $userTimezone = 'America/New_York'; // EST timezone
     let isCaptured = false; // Track whether a picture has been captured
 
     // Start webcam when modal opens
-    $("#checkInModal").on("show.bs.modal", function() {
-        if ($("#check_type").val() == "check-out") {
-            $("#captureBtn").hide();
-            $("#retakeBtn").hide();
-            $("#camera-container").hide();
+    // $("#checkInModal").on("show.bs.modal", function() {
+    //     if ($("#check_type").val() == "check-out") {
+    //         $("#captureBtn").hide();
+    //         $("#retakeBtn").hide();
+    //         $("#camera-container").hide();
 
-        } else {
-            isCaptured = false;
-            startWebcam();
-        }
+    //     } else {
+    //         isCaptured = false;
+    //         startWebcam();
+    //     }
+    // });
+
+
+    $("#checkInModal").on("show.bs.modal", function() {
+
+    isCaptured = false;
+
+    $("#camera-container").show(); // ensure visible
+        startWebcam(); // ✅ always start webcam
     });
 
     // Stop webcam when modal closes
@@ -594,20 +609,35 @@ $userTimezone = 'America/New_York'; // EST timezone
     });
 
     // Function to start the webcam
+    // function startWebcam() {
+    //     if ($("#check_type").val() != "check-out") {
+
+    //         Webcam.set({
+    //             width: 400,
+    //             height: 300,
+    //             image_format: "png",
+    //             jpeg_quality: 90,
+    //         });
+
+    //         Webcam.attach("#camera-container");
+    //         $("#captureBtn").show();
+    //         $("#retakeBtn").hide();
+    //     }
+    // }
+
     function startWebcam() {
-        if ($("#check_type").val() != "check-out") {
 
-            Webcam.set({
-                width: 400,
-                height: 300,
-                image_format: "png",
-                jpeg_quality: 90,
-            });
+        Webcam.set({
+            width: 400,
+            height: 300,
+            image_format: "png",
+            jpeg_quality: 90,
+        });
 
-            Webcam.attach("#camera-container");
-            $("#captureBtn").show();
-            $("#retakeBtn").hide();
-        }
+        Webcam.attach("#camera-container");
+
+        $("#captureBtn").show();
+        $("#retakeBtn").hide();
     }
 
     // Capture photo
@@ -673,52 +703,100 @@ $userTimezone = 'America/New_York'; // EST timezone
         })
     }
 
+    // $(".check_in_btn").click(function() {
+    //     var type = $(this).attr('data-checkType');
+    //     // console.log
+    //     checkLocation(function(location) {
+
+    //         var lat = location ? location.latitude : 'w';
+    //         var lon = location ? location.longitude : 'w';
+
+    //         if (lat != null && lon != null) {
+    //             distance = checkDistance(lat, lon);
+    //             // if (distance <= 15) {
+    //             if (distance <= 15) {
+    //                 $("#lat").val(lat);
+    //                 $("#lon").val(lon);
+
+    //                 // if (type == 'check-in') {
+
+    //                     $(".check_in_div").removeClass('d-none');
+    //                     $("#check_in_input").prop('disabled', false);
+
+    //                 } else {
+
+    //                     $(".check_in_div").addClass('d-none');
+    //                     $(".check_out_div").removeClass('d-none');
+    //                     $("#check_out_input").prop('disabled', false);
+    //                 }
+
+    //                 $('.validation')
+    //                     .text('Your location is valid')
+    //                     .css('color', 'green');
+    //                 $('#check_type').val(type);
+
+    //                 $("#checkInModal").modal("show");
+    //                 $(".check_in_confirm_btn").prop('disabled', false);
+    //             // } else {
+    //             //     $('.validation')
+    //             //         .text('You are not in Targeted Location')
+    //             //         .css('color', 'red');
+    //             //     $("#checkInModal").modal("show");
+    //             //     $(".check_in_confirm_btn").prop('disabled', true);
+
+    //             // }
+
+    //         }
+    //     });
+    // });
+
     $(".check_in_btn").click(function() {
-        var type = $(this).attr('data-checkType');
-        // console.log
-        checkLocation(function(location) {
+    var type = $(this).attr('data-checkType');
 
-            var lat = location ? location.latitude : 'w';
-            var lon = location ? location.longitude : 'w';
+    checkLocation(function(location) {
 
-            if (lat != null && lon != null) {
-                distance = checkDistance(lat, lon);
-                // if (distance <= 15) {
-                if (distance <= 15) {
-                    $("#lat").val(lat);
-                    $("#lon").val(lon);
+        var lat = location ? location.latitude : 'w';
+        var lon = location ? location.longitude : 'w';
 
-                    // if (type == 'check-in') {
+        if (lat != null && lon != null) {
+            distance = checkDistance(lat, lon);
 
-                        $(".check_in_div").removeClass('d-none');
-                        $("#check_in_input").prop('disabled', false);
+            if (distance <= 15) {
 
-                    } else {
+                $("#lat").val(lat);
+                $("#lon").val(lon);
 
-                        $(".check_in_div").addClass('d-none');
-                        $(".check_out_div").removeClass('d-none');
-                        $("#check_out_input").prop('disabled', false);
-                    }
+                if (type == 'check-in') {
 
-                    $('.validation')
-                        .text('Your location is valid')
-                        .css('color', 'green');
-                    $('#check_type').val(type);
+                    $(".check_in_div").removeClass('d-none');
+                    $(".check_out_div").addClass('d-none');
 
-                    $("#checkInModal").modal("show");
-                    $(".check_in_confirm_btn").prop('disabled', false);
-                // } else {
-                //     $('.validation')
-                //         .text('You are not in Targeted Location')
-                //         .css('color', 'red');
-                //     $("#checkInModal").modal("show");
-                //     $(".check_in_confirm_btn").prop('disabled', true);
+                    $("#check_in_input").prop('disabled', false);
+                    $("#check_out_input").prop('disabled', true);
 
-                // }
+                    // ✅ LABEL FIX
+                    $("#check_in_label").text("Check In Time");
 
+                } else {
+
+                    $(".check_in_div").addClass('d-none');
+                    $(".check_out_div").removeClass('d-none');
+
+                    $("#check_out_input").prop('disabled', false);
+                    $("#check_in_input").prop('disabled', true);
+
+                    // ✅ LABEL FIX
+                    $("#check_out_label").text("Check Out Time");
+                }
+
+                $('#check_type').val(type);
+
+                $("#checkInModal").modal("show");
+                $(".check_in_confirm_btn").prop('disabled', false);
             }
-        });
+        }
     });
+});
 
     function checkLocation(callback) {
         if (navigator.geolocation) {

@@ -2,29 +2,30 @@
 
 namespace App\Http\Controllers\Common;
 
-use App\Models\JobMember;
-use App\Models\UserRecap;
-use App\Services\GoogleDriveService;
-use App\Traits\FilesHandler;
-use Illuminate\Http\Request;
-use App\Services\BrandsService;
-
-use App\Services\RecapsService;
-use App\Models\UserRecapQuestion;
-
-use App\Traits\Base64FilesHandler;
+use App\Exports\MultiRecapExport;
+use App\Exports\RecapExport;
 use App\Http\Controllers\Controller;
 use App\Models\Job;
+use App\Models\JobMember;
 use App\Models\LeadUser;
 use App\Models\Recap;
+
 use App\Models\RecapQuestion;
+use App\Models\UserRecap;
+
+use App\Models\UserRecapQuestion;
+use App\Services\BrandsService;
+use App\Services\GoogleDriveService;
 use App\Services\NotificationsService;
-use App\Exports\RecapExport;
+use App\Services\RecapsService;
+use App\Traits\Base64FilesHandler;
+use App\Traits\FilesHandler;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserRecapsController extends Controller
 {
@@ -651,6 +652,45 @@ class UserRecapsController extends Controller
             \Log::error($e->getMessage());
             return back()->with('error','Something went wrong');
         }
+    }
+
+
+        public function downloadMultipleRecaps(Request $request)
+    {
+        $ids = $request->ids;
+
+        if (!$ids || count($ids) == 0) {
+            return back()->with('error', 'No recaps selected');
+        }
+
+        $filename = 'Multiple_Recaps_' . date('Y-m-d_His') . '.xlsx';
+
+        return Excel::download(new MultiRecapExport($ids), $filename);
+    }
+
+    public function viewMultipleRecapsOnDrive(Request $request)
+    {
+        $ids = $request->ids;
+
+        if (!$ids || count($ids) == 0) {
+            return back()->with('error', 'No recaps selected');
+        }
+
+        $filename = 'Multiple_Recaps_' . date('YmdHis') . '.xlsx';
+
+        $localPath = storage_path('app/public/' . $filename);
+
+        Excel::store(new MultiRecapExport($ids), 'public/' . $filename);
+
+        $fileId = $this->googleDriveService->uploadFile(
+            $localPath,
+            $filename,
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        );
+
+        Storage::delete('public/' . $filename);
+
+        return redirect("https://docs.google.com/spreadsheets/d/{$fileId}/edit");
     }
 
 

@@ -231,7 +231,7 @@
                     <input type="number" name="out_of_pocket" class="pay-input pay-calc" value="{{ $data->out_of_pocket_expense ?? 0 }}">
                 </div>
 
-            {{--
+            
                 <div class="d-flex align-items-center mb-4 flex-wrap">
                     <label class="pay-label">Deductions:</label>
                     <input type="number"
@@ -239,7 +239,7 @@
                            class="pay-input pay-calc"
                            value="{{ $data->deduction ?? 0 }}">
                 </div>
-                --}}
+               
 
 
                 <div class="d-flex align-items-center mb-4 flex-wrap">
@@ -488,16 +488,16 @@ $(document).ready(function() {
         const sales = parseFloat($('[name="sales_incentives"]').val()) || 0;
         const pocket = parseFloat($('[name="out_of_pocket"]').val()) || 0;
 
-        // ============================
-        // ✅ Deduction disabled
-        // ============================
-        const total = flatRate + sales + pocket;
+        // Include deductions as a subtraction from the subtotal
+        const deduction = parseFloat($('[name="deductions"]').val()) || 0;
+
+        const total = flatRate + sales + pocket - deduction;
 
         $('#display-subtotal').text('$' + total.toFixed(2));
         $('#sub_total_val').val(total.toFixed(2));
     }
 
-    // Recalculate on allowed fields only
+    // Recalculate when any pay-related input changes (includes deductions)
     $('.pay-calc').on('input', calculateTotal);
 
     // Initial calculation
@@ -514,7 +514,7 @@ $(document).ready(function() {
             flatRate: $('[name="flat_rate"]').val(),
             salesIncentives: $('[name="sales_incentives"]').val(),
             outOfPocket: $('[name="out_of_pocket"]').val(),
-            deductions: 0, // 🔒 forced zero
+            deductions: $('[name="deductions"]').val(),
             note: $('[name="note"]').val(),
             subTotal: $('#sub_total_val').val()
         };

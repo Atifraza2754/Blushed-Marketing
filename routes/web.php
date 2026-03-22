@@ -147,6 +147,9 @@ Route::group(
 
 
         /*-------- RECAPS -------*/
+                Route::post('/recap/download-multiple', [UserRecapsController::class, 'downloadMultipleRecaps']);
+        Route::post('/recap/view-multiple', [UserRecapsController::class, 'viewMultipleRecapsOnDrive']);
+
         Route::get('recaps/{slug?}', [UserRecapsController::class, 'index']);
         Route::get('recap/{id}', [UserRecapsController::class, 'edit']);
         Route::get('recap/{id}/download-excel', [UserRecapsController::class, 'downloadRecapExcel']);
