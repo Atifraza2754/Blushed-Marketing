@@ -6,7 +6,7 @@
 
 @section('customStyles')
 	{{-- dropzone --}}
-	<link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.css" />
 	<style>
 		.blushed-card {
 			height: auto !important;
@@ -65,7 +65,9 @@
 @endsection
 
 @section('customScripts')
-	<script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.js"></script>
 
 	<script>
 		// ==================================dropzone

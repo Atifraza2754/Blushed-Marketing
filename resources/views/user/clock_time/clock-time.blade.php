@@ -750,76 +750,92 @@ $userTimezone = 'America/New_York'; // EST timezone
     //     });
     // });
 
-    $(".check_in_btn").click(function() {
+$(".check_in_btn").click(function() {
     var type = $(this).attr('data-checkType');
 
     checkLocation(function(location) {
 
-        var lat = location ? location.latitude : 'w';
-        var lon = location ? location.longitude : 'w';
+        let lat = null;
+        let lon = null;
 
-        if (lat != null && lon != null) {
-            distance = checkDistance(lat, lon);
+        if (location) {
+            lat = location.latitude;
+            lon = location.longitude;
 
-            if (distance <= 15) {
+            $("#lat").val(lat);
+            $("#lon").val(lon);
+        }
 
-                $("#lat").val(lat);
-                $("#lon").val(lon);
+        // ✅ REMOVE STRICT BLOCK
+        // distance check optional karo
+        let allow = true;
 
-                if (type == 'check-in') {
+        if (lat && lon) {
+            let distance = checkDistance(lat, lon);
 
-                    $(".check_in_div").removeClass('d-none');
-                    $(".check_out_div").addClass('d-none');
-
-                    $("#check_in_input").prop('disabled', false);
-                    $("#check_out_input").prop('disabled', true);
-
-                    // ✅ LABEL FIX
-                    $("#check_in_label").text("Check In Time");
-
-                } else {
-
-                    $(".check_in_div").addClass('d-none');
-                    $(".check_out_div").removeClass('d-none');
-
-                    $("#check_out_input").prop('disabled', false);
-                    $("#check_in_input").prop('disabled', true);
-
-                    // ✅ LABEL FIX
-                    $("#check_out_label").text("Check Out Time");
-                }
-
-                $('#check_type').val(type);
-
-                $("#checkInModal").modal("show");
-                $(".check_in_confirm_btn").prop('disabled', false);
+            // OPTIONAL: increase limit
+            if (distance > 100) {
+                $('.validation')
+                    .text('You are far from job location')
+                    .css('color', 'orange');
             }
         }
+
+        // ✅ ALWAYS SHOW MODAL
+        if (type == 'check-in') {
+            $(".check_in_div").removeClass('d-none');
+            $(".check_out_div").addClass('d-none');
+
+            $("#check_in_input").prop('disabled', false);
+            $("#check_out_input").prop('disabled', true);
+
+            $("#check_in_label").text("Check In Time");
+
+        } else {
+            $(".check_in_div").addClass('d-none');
+            $(".check_out_div").removeClass('d-none');
+
+            $("#check_out_input").prop('disabled', false);
+            $("#check_in_input").prop('disabled', true);
+
+            $("#check_out_label").text("Check Out Time");
+        }
+
+        $('#check_type').val(type);
+
+        $("#checkInModal").modal("show");
+        $(".check_in_confirm_btn").prop('disabled', false);
+
     });
 });
 
-    function checkLocation(callback) {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                function(position) {
-                    const latitude = position.coords.latitude;
-                    const longitude = position.coords.longitude;
-                    callback({
-                        latitude,
-                        longitude
-                    });
-                },
-                function(error) {
-                    console.error("Error getting location:", error.message);
-                    alert("Unable to retrieve location. Please ensure location services are enabled.");
-                    callback(null);
-                }
-            );
-        } else {
-            alert("Geolocation is not supported by this browser.");
-            callback(null);
-        }
+function checkLocation(callback) {
+    if (!navigator.geolocation) {
+        console.log("Geolocation not supported");
+        callback(null);
+        return;
     }
+
+    navigator.geolocation.getCurrentPosition(
+        function(position) {
+            callback({
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude
+            });
+        },
+        function(error) {
+            console.log("Location error:", error.message);
+
+            // ✅ STILL CONTINUE
+            callback(null);
+        },
+        {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0
+        }
+    );
+}
 
     function checkDistance(lat, lon) {
         const job_lat = parseFloat($("#job_lat").val());
