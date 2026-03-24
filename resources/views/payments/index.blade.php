@@ -102,7 +102,11 @@
                                         {{-- 
                                             Yeh link ab same page (payments/slug) par brand filter apply karega 
                                         --}}
-                                        <a href="{{ url('/paywithusers' . ($slug ?? '') . '?brand_id=' . ($p->job->brand_id ?? '')) }}" class="main-btn-sm">
+                                        {{-- <a href="{{ url('/paywithusers' . ($slug ?? '') . '?brand_id=' . ($p->job->brand_id ?? '')) }}" class="main-btn-sm">
+                                            View Detail
+                                        </a> --}}
+
+                                        <a href="{{ url('/paywithusers' . ($slug ?? '') . '?brand_id=' . ($p->job->brand_id ?? '') . '&work_id=' . $p->id) }}" class="main-btn-sm">
                                             View Detail
                                         </a>
                                     </div>

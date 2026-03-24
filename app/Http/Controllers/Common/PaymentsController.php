@@ -97,8 +97,7 @@ class PaymentsController extends Controller
     }
 
     public function userslist(Request $request, $slug = null)
-
-
+    
     {
 
 
@@ -131,6 +130,7 @@ class PaymentsController extends Controller
         ====================================================== */
 
             $brandId = $request->get('brand_id');
+            $workId = $request->get('work_id');
             $brand   = null;
 
             if ($brandId) {
@@ -154,7 +154,12 @@ class PaymentsController extends Controller
             }
 
             // Brand filter
-            if ($brandId) {
+            // If specific row clicked → show only that record
+            if ($workId) {
+                $payments->where('id', $workId);
+            } 
+            // Otherwise fallback to brand filter
+            elseif ($brandId) {
                 $payments->whereHas('job', function ($q) use ($brandId) {
                     $q->where('brand_id', $brandId);
                 });

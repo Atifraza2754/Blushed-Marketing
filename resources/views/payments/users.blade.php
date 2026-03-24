@@ -33,28 +33,28 @@
     $brandId = request()->get('brand_id');
 @endphp
 
-<div class="tab">
-    {{-- All --}}
-    <a href="{{ url('/paywithusers') . ($brandId ? '?brand_id='.$brandId : '') }}">
-        <button class="{{ $slug == null ? 'active' : '' }}">
-            All
-        </button>
-    </a>
+            {{-- <div class="tab">
 
-    {{-- Past --}}
-    <a href="{{ url('/paywithusers/past') . ($brandId ? '?brand_id='.$brandId : '') }}">
-        <button class="{{ $slug == 'past' ? 'active' : '' }}">
-            Past (Paid)
-        </button>
-    </a>
+                <a href="{{ url('/paywithusers') . ($brandId ? '?brand_id='.$brandId : '') }}">
+                    <button class="{{ $slug == null ? 'active' : '' }}">
+                        All
+                    </button>
+                </a>
 
-    {{-- Current --}}
-    <a href="{{ url('/paywithusers/current') . ($brandId ? '?brand_id='.$brandId : '') }}">
-        <button class="{{ $slug == 'current' ? 'active' : '' }}">
-            Current (Due)
-        </button>
-    </a>
-</div>
+
+                <a href="{{ url('/paywithusers/past') . ($brandId ? '?brand_id='.$brandId : '') }}">
+                    <button class="{{ $slug == 'past' ? 'active' : '' }}">
+                        Past (Paid)
+                    </button>
+                </a>
+
+
+                <a href="{{ url('/paywithusers/current') . ($brandId ? '?brand_id='.$brandId : '') }}">
+                    <button class="{{ $slug == 'current' ? 'active' : '' }}">
+                        Current (Due)
+                    </button>
+                </a>
+            </div> --}}
 
             </div>
         </div>
