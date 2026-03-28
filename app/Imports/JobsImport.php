@@ -49,12 +49,15 @@ class JobsImport implements ToModel, WithHeadingRow
             // Save the job as the time is valid
             
             $nowEST = Carbon::now('America/New_York')->format('Y-m-d H:i:s');
+            $latLng = $this->getLatLng($row['address']);
 
 return new Job([
     'user_id' => Auth::id(),
     'date' => $formated_date,
     'account' => $row['account'],
     'address' => $row['address'],
+    'latitude' => $latLng['lat'],     // ✅ ADD THIS
+    'longitude' => $latLng['lng'],    // ✅ ADD THIS
     'contact' => $row['contact'],
     'phone' => $row['phone'],
     'scheduled_time' => $row['scheduled_time'],
@@ -117,4 +120,25 @@ return new Job([
             'shift_end' => $end_time
         ];
     }
+
+
+   function getLatLng($address)
+{
+    $apiKey = "AIzaSyDspelMgI4CZisTau_P7aSyOlmM3x-OB2U";
+
+    $url = "https://maps.googleapis.com/maps/api/geocode/json?address=" . urlencode($address) . "&key=" . $apiKey;
+
+    $response = file_get_contents($url);
+    $data = json_decode($response, true);
+
+    if (!empty($data['results'][0]['geometry']['location'])) {
+        return [
+            'lat' => $data['results'][0]['geometry']['location']['lat'],
+            'lng' => $data['results'][0]['geometry']['location']['lng'],
+        ];
+    }
+
+    return ['lat' => null, 'lng' => null];
+}
+
 }

@@ -26,6 +26,7 @@ class SiteSetting extends Model
         'twitter',
         'snapchat',
         'linkedin',
+        'mileage_rate'
     ];
  
 

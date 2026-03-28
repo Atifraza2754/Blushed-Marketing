@@ -108,6 +108,7 @@ Route::group(
 
         Route::get('/site-settings', [SettingsController::class, 'siteSettings']);
         Route::post('/site-setting-update', [SettingsController::class, 'siteSettingsStore']);
+        Route::post('/site-setting-mileage-update', [SettingsController::class, 'updateMileageRate']);
 
         // NOTIFICATIONS
         Route::get('notifications', action: [NotificationsController::class, 'index']);

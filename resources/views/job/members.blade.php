@@ -59,10 +59,25 @@
 
                         <div
                             class="d-flex justify-content-between align-items-start  mt-3 flex-md-row flex-column flex-wrap">
-                            <div class="mt-2">
+                           <div class="mt-2">
                                 <p class="mb-0 pb-0 f-14 w-600 text-gray">Address:</p>
-                                <p class="mb-0 pb-0 f-14 w-600 text-black">{{ $job->address }}</p>
+
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <!-- Address -->
+                                    <p class="mb-0 pb-0 f-14 w-600 text-black">
+                                        {{ $job->address ?? 'N/A' }}
+                                    </p>
+
+                                    <!-- View Location -->
+                                    @if($job->address)
+                                        <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($job->address) }}" 
+                                        target="_blank" class="ms-3">
+                                            View Location 
+                                        </a>
+                                    @endif
+                                </div>
                             </div>
+
                             <div class="mt-2">
                                 <p class="mb-0 pb-0 f-14 w-600 text-gray">Phone #:</p>
                                 <p class="mb-0 pb-0 f-14 w-600 text-black">{{ $job->phone }}</p>

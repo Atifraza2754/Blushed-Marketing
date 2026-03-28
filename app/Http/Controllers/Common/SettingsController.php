@@ -72,6 +72,7 @@ class SettingsController extends Controller
 			'gender' => 'nullable|string|max:15',
 			'date_of_birth' => 'nullable|date',
 			'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+			'current_location' => 'nullable'
 		]);
 
 		try {
@@ -88,6 +89,9 @@ class SettingsController extends Controller
 				'gender' => $request->gender,
 				'bio' => $request->bio,
 				'date_of_birth' => $request->date_of_birth,
+				'current_location' => $request->current_location,
+				'lat' => $request->lat,
+				'lng' => $request->lng,
 			];
 
 			if ($request->profile_image) {
@@ -521,12 +525,14 @@ class SettingsController extends Controller
 
 	public function siteSettings()
 	{
+		$setting = SiteSetting::first();
 		$flatRate = app('flatRate');
 
 		return view('settings.site_settings')
 			->with([
 				'tab' => "settings",
 				'flatRate' => $flatRate,
+				'mileageRate' => $setting->mileage_rate ?? 0,
 			]);
 		;
 	}
@@ -547,6 +553,36 @@ class SettingsController extends Controller
 
 		return back();
 	}
+
+	//set and update mileage rate
+	public function updateMileageRate(Request $request)
+	{
+		$request->validate([
+			'mileage_rate' => 'required|numeric'
+		]);
+
+		// check if record exists
+		$setting = SiteSetting::first();
+
+		if (!$setting) {
+			// create new row (all default columns)
+			$setting = new SiteSetting();
+			$setting->mileage_rate = 0; // optional (default)
+		}
+
+		// update mileage rate
+		$setting->mileage_rate = $request->mileage_rate;
+		$setting->save();
+
+		Session::flash('Alert', [
+			'status' => 200,
+			'message' => 'Mileage Rate updated successfully.'
+		]);
+
+		return back();
+	}
+
+
 
 	public function userSettings($id)
 	{

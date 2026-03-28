@@ -195,6 +195,10 @@
 
         </div>
 
+        @php
+          $setting = \App\Models\SiteSetting::first();
+        @endphp
+
         <div class="mt-5">
             <h5 class="text-primary-pink w-600">Paying details</h5>
             <hr>
@@ -207,23 +211,65 @@
 
                 <div class="d-flex align-items-center mb-4 flex-wrap">
                     <label class="pay-label"></label>
+
                     <div class="d-flex align-items-center gap-4 w-75">
                         <div class="text-primary-pink cursor-pointer w-600" id="add-mileage-btn">
                             <i class="fas fa-plus-circle me-1"></i> Add Mileage
                         </div>
-                        <div class="d-flex align-items-center gap-2 text-muted f-14">
-                            <span><i class="fas fa-map-marker-alt text-primary-pink"></i> Event location</span>
+
+                        <div class="d-flex flex-wrap align-items-center gap-2 text-muted f-14">
+
+                            <span>
+                                <i class="fas fa-map-marker-alt text-primary-pink"></i> Event location
+                            </span>
+
                             <span>To</span>
-                            <span><i class="fas fa-map-marker-alt text-primary-pink"></i> User Location</span>
+
+                            <span>
+                                <i class="fas fa-map-marker-alt text-primary-pink"></i> User Location
+                            </span>
+
                             <span>=</span>
-                            <span>Expected Mileage: <b class="text-primary-pink">$50</b></span>
+
+                            <span>
+                                Distance:
+                                <b class="text-dark">
+                                    {{ number_format($distance, 2) }} miles
+                                </b>
+                            </span>
+
+                            <span>|</span>
+
+                            <span>
+                            Rate: <b>${{ $setting->mileage_rate }}/mile</b>
+                            </span>
+
+                            <span>|</span>
+
+                            <span>
+                                Mileage Pay:
+                                <b class="text-primary-pink">
+                                    ${{ number_format($expectedMileage, 2) }}
+                                </b>
+                            </span>
+
                         </div>
                     </div>
                 </div>
 
+
                 <div class="d-flex align-items-center mb-4 flex-wrap">
                     <label class="pay-label">Sales Incentives:</label>
                     <input type="number" name="sales_incentives" class="pay-input pay-calc" value="{{ $data->sale_incentive ?? 0 }}">
+                </div>
+
+                <!-- Mileage hidden value and display -->
+                <input type="hidden" name="mileage" id="mileage-input" class="pay-calc" value="{{ $data->mileage ?? 0 }}">
+                <div class="d-flex align-items-center mb-3 flex-wrap" id="mileage-display-row">
+                    <label class="pay-label">Mileage:</label>
+                    <div class="d-flex align-items-center gap-2">
+                        <span id="mileage-display" class="text-primary-pink w-600">${{ number_format($data->mileage ?? 0, 2) }}</span>
+                    </div>
                 </div>
 
                 <div class="d-flex align-items-center mb-4 flex-wrap">
@@ -254,12 +300,12 @@
                     </div>
 
                   @if (isset($data->payment) && $data->payment->is_paid != 1)
-    <a href="javascript:void(0)"
-       class="main-btn-blank ms-sm-3 ms-0 text-white bg-primary pay-now"
-       data-user-payment-job-history="{{ $data->payment->id }}">
-        Pay Now
-    </a>
-@endif
+                    <a href="javascript:void(0)"
+                    class="main-btn-blank ms-sm-3 ms-0 text-white bg-primary pay-now"
+                    data-user-payment-job-history="{{ $data->payment->id }}">
+                        Pay Now
+                    </a>
+                @endif
 
 
 
@@ -488,10 +534,14 @@ $(document).ready(function() {
         const sales = parseFloat($('[name="sales_incentives"]').val()) || 0;
         const pocket = parseFloat($('[name="out_of_pocket"]').val()) || 0;
 
+        // Mileage (added via Add Mileage action)
+        const mileage = parseFloat($('[name="mileage"]').val()) || 0;
+
         // Include deductions as a subtraction from the subtotal
         const deduction = parseFloat($('[name="deductions"]').val()) || 0;
 
-        const total = flatRate + sales + pocket - deduction;
+        // Add mileage to subtotal like other pay fields
+        const total = flatRate + sales + pocket + mileage - deduction;
 
         $('#display-subtotal').text('$' + total.toFixed(2));
         $('#sub_total_val').val(total.toFixed(2));
@@ -502,6 +552,51 @@ $(document).ready(function() {
 
     // Initial calculation
     calculateTotal();
+
+    // Show initial mileage display (if saved)
+    (function initMileageDisplay(){
+        const m = parseFloat($('[name="mileage"]').val()) || 0;
+        $('#mileage-display').text('$' + m.toFixed(2));
+    })();
+
+    // ============================
+    // ADD MILEAGE
+    // ============================
+    $('#add-mileage-btn').on('click', function(){
+        const current = parseFloat($('[name="mileage"]').val()) || 0;
+        if (current > 0) {
+            Swal.fire({
+                icon: 'info',
+                title: 'Mileage already added',
+                text: 'Mileage has already been added to this payment.'
+            });
+            return;
+        }
+
+        // Pre-fill expected mileage value from server
+        let expected = parseFloat('{{ $expectedMileage ?? 0 }}') || 0;
+
+        Swal.fire({
+            title: 'Add Mileage Pay',
+            input: 'number',
+            inputLabel: 'Mileage amount ($)',
+            inputValue: expected.toFixed(2),
+            showCancelButton: true,
+            inputAttributes: {
+                step: '0.01',
+                min: 0
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let val = parseFloat(result.value) || 0;
+                // update hidden input and display
+                $('[name="mileage"]').val(val.toFixed(2));
+                $('#mileage-display').text('$' + val.toFixed(2));
+                // Recalculate subtotal
+                calculateTotal();
+            }
+        });
+    });
 
     // ============================
     // SAVE
@@ -516,7 +611,9 @@ $(document).ready(function() {
             outOfPocket: $('[name="out_of_pocket"]').val(),
             deductions: $('[name="deductions"]').val(),
             note: $('[name="note"]').val(),
-            subTotal: $('#sub_total_val').val()
+            subTotal: $('#sub_total_val').val(),
+            subtotal: $('#sub_total_val').val(),
+            mileage: $('[name="mileage"]').val()
         };
 
         Swal.fire({

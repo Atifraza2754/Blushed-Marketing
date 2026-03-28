@@ -63,6 +63,8 @@
                             enctype="multipart/form-data">
                             @csrf
                             <input type="hidden" value="{{ $user->id }}" name="user_id">
+                            <input type="hidden" name="lat" id="user_lat">
+                            <input type="hidden" name="lng" id="user_lng">
 
                             <div class="row">
                                 <div class="col-lg-8 order-lg-1 order-2">
@@ -116,11 +118,26 @@
                                                 placeholder="name@example.com" value="12/12/200">
                                             <label for="floatingRole sign-label">Date of Birth</label>
                                         </div>
+
+                                        <div class="col-lg-12">
+                                            <div class="form-floating mb-2 w-100">
+                                                <input type="text" class="form-control sign-input" id="address"
+                                                    name="address" value="{{ $user->address }}" placeholder="">
+                                                <label>Address</label>
+                                            </div>
+
+                                            <!-- Get Current Location Button -->
+                                            <button type="button" class="btn btn-sm btn-primary mb-3" onclick="getLocation()">
+                                                Get Current Location
+                                            </button>
+                                        </div>
+
+                                        <!-- Current Location (Auto Fill) -->
                                         <div class="col-lg-12">
                                             <div class="form-floating mb-4 w-100">
-                                                <input type="text" class="form-control sign-input" id="floatingInput"
-                                                    name="address" value="{{ $user->address }}" placeholder="">
-                                                <label for="floatingInput sign-label">Address</label>
+                                                <input type="text" class="form-control sign-input" id="current_location"
+                                                    name="current_location" value="{{ $user->current_location ?? '' }}">
+                                                <label>Current Location</label>
                                             </div>
                                         </div>
                                         {{-- <div class="col-lg-12">
@@ -454,5 +471,46 @@
 
         </div>
     </div>
+
+    
+<script>
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(success, error, {
+            enableHighAccuracy: true,
+            timeout: 10000
+        });
+    } else {
+        alert("Geolocation is not supported by this browser.");
+    }
+}
+
+function success(position) {
+    const lat = position.coords.latitude;
+    const lng = position.coords.longitude;
+
+    // ✅ SET LAT LNG
+    document.getElementById("user_lat").value = lat;
+    document.getElementById("user_lng").value = lng;
+
+    // ✅ Reverse Geocoding
+    fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`)
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById("current_location").value = data.display_name;
+        })
+        .catch(() => {
+            alert("Location fetch failed");
+        });
+}
+
+function error(err) {
+    if (err.code === 1) {
+        alert("Permission denied. Please allow location access.");
+    } else {
+        alert("Unable to get location");
+    }
+}
+</script>
 @endsection
 

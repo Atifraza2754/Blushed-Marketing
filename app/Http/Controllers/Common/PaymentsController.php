@@ -207,36 +207,80 @@ class PaymentsController extends Controller
 // }
 
 
+// public function paymentDetail($id)
+// {
+//    // $data = WorkHistory::with('payment', 'user.userRecaps')->findOrFail($id);
+//    $data = WorkHistory::with('payment', 'user.userRecaps', 'job')->findOrFail($id);
+
+//     // ================================
+//     // ❌ Deduction temporarily disabled
+//     // ================================
+//     /*
+//     $recap = $data->user->userRecaps
+//         ->where('status', '=', null)
+//         ->first();
+
+//     $recapDeduction = 0;
+//     $hoursPending = 0;
+
+//     if ($recap) {
+//         $submittedAt = $recap->created_at ?? $data->job?->date ?? now();
+//         $hoursPending = Carbon::now()->diffInHours(Carbon::parse($submittedAt));
+//         $recapDeduction = floor($hoursPending / 24) * 5;
+//     }
+//     */
+
+//     // ✅ Values forced to zero so flow never breaks
+//     $recapDeduction = 0;
+//     $hoursPending = 0;
+
+//     return view('payments.paying-approved')->with([
+//         'data' => $data,
+//         'recapDeduction' => $recapDeduction,
+//         'hoursPending' => $hoursPending
+//     ]);
+// }
+
+
+
 public function paymentDetail($id)
 {
-    $data = WorkHistory::with('payment', 'user.userRecaps')->findOrFail($id);
+    $data = WorkHistory::with('payment', 'user', 'job')->findOrFail($id);
 
-    // ================================
-    // ❌ Deduction temporarily disabled
-    // ================================
-    /*
-    $recap = $data->user->userRecaps
-        ->where('status', '=', null)
-        ->first();
+    $distance = 0;
+    $mileageRate = 0;
+    $expectedMileage = 0;
 
-    $recapDeduction = 0;
-    $hoursPending = 0;
+    if (
+        $data->user &&
+        $data->job &&
+        $data->user->lat &&
+        $data->user->lng &&
+        $data->job->latitude &&
+        $data->job->longitude
+    ) {
+        $distance = $this->calculateDistanceMiles(
+            $data->user->lat,
+            $data->user->lng,
+            $data->job->latitude,
+            $data->job->longitude
+        );
 
-    if ($recap) {
-        $submittedAt = $recap->created_at ?? $data->job?->date ?? now();
-        $hoursPending = Carbon::now()->diffInHours(Carbon::parse($submittedAt));
-        $recapDeduction = floor($hoursPending / 24) * 5;
+        // ✅ SAFE FETCH
+        $setting = \App\Models\SiteSetting::first();
+
+        if ($setting && $setting->mileage_rate !== null) {
+            $mileageRate = $setting->mileage_rate;
+        }
+
+        $expectedMileage = $distance * $mileageRate;
     }
-    */
-
-    // ✅ Values forced to zero so flow never breaks
-    $recapDeduction = 0;
-    $hoursPending = 0;
 
     return view('payments.paying-approved')->with([
         'data' => $data,
-        'recapDeduction' => $recapDeduction,
-        'hoursPending' => $hoursPending
+        'distance' => $distance,
+        'mileageRate' => $mileageRate,
+        'expectedMileage' => $expectedMileage
     ]);
 }
 
@@ -547,4 +591,22 @@ public function paymentDetail($id)
             throw $th;
         }
     }
+
+
+    function calculateDistanceMiles($lat1, $lon1, $lat2, $lon2)
+{
+    $earthRadius = 3958.8; // miles
+
+    $latDiff = deg2rad($lat2 - $lat1);
+    $lonDiff = deg2rad($lon2 - $lon1);
+
+    $a = sin($latDiff / 2) * sin($latDiff / 2) +
+         cos(deg2rad($lat1)) * cos(deg2rad($lat2)) *
+         sin($lonDiff / 2) * sin($lonDiff / 2);
+
+    $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+
+    return $earthRadius * $c;
+}
+
 }

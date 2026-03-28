@@ -58,6 +58,35 @@
 
             </div>
 
+
+            <div class="col-lg-8 mt-5">
+                <h1 class="f-18 w-500">Set Mileage Rate</h1>
+
+                <form action="{{ URL::to('/site-setting-mileage-update') }}" method="post"
+                    class="sign__frame-right--form">
+                    @csrf
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-floating mb-4 w-100">
+                                <input type="text" name="mileage_rate" value="{{ $mileageRate ?? 0 }}"
+                                    class="form-control sign-input" id="mileageRateInput" required>
+                                <label for="mileageRateInput">Mileage Rate</label>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12">
+                            <div class="d-flex mt-2">
+                                <button type="submit" id="mileageSubmitBtn"
+                                    class="main-btn-blank text-white bg-primary">
+                                    Save Mileage Rate
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
         </div>
 
     </div>
