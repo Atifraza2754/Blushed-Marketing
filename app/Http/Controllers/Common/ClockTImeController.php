@@ -219,106 +219,6 @@ class ClockTImeController extends Controller
 
 
    
-
-//     public function submit(Request $request)
-// {
-//     $clock_type = $request->check_type;
-
-//     $work_history = WorkHistory::where('id', $request->work_history_id)
-//         ->where('user_id', auth()->id())
-//         ->firstOrFail();
-
-//     try {
-
-//         /*============================
-//         | CHECK-IN
-//         ============================*/
-//         if ($clock_type === 'check-in') {
-
-//             // ❌ Agar already active shift hai
-//             if (WorkHistory::where('user_id', auth()->id())
-//                 ->where('is_active_shift', 1)
-//                 ->exists()) {
-
-//                 Session::flash('Alert', [
-//                     'status' => 400,
-//                     'message' => "You already have an active shift",
-//                 ]);
-//                 return back();
-//             }
-
-//             $arr = [
-//                 'is_confirm' => 1,
-//                 'image' => $request->image,
-//                 'user_working_hour' => 0,
-//                 'check_in' => $request->check_time,
-//                 'check_out' => null,
-//                 'lat' => $request->lat ?? '',
-//                 'lon' => $request->lon ?? '',
-//                 'is_active_shift' => 1, // 🔴 USER BUSY
-//             ];
-//         }
-
-//         /*============================
-//         | CHECK-OUT
-//         ============================*/
-//         elseif ($clock_type === 'check-out') {
-
-//             if (!$work_history->is_active_shift) {
-//                 Session::flash('Alert', [
-//                     'status' => 400,
-//                     'message' => "Shift already completed",
-//                 ]);
-//                 return back();
-//             }
-
-//             $checkIn = new DateTime($work_history->check_in);
-//             $checkOut = new DateTime($request->check_time);
-
-//             $interval = $checkIn->diff($checkOut);
-//             $timePassed = $interval->format('%H:%I:%S');
-
-//             $arr = [
-//                 'user_working_hour' => $timePassed,
-//                 'check_out' => $request->check_time,
-//                 'is_active_shift' => 0, // ✅ USER AVAILABLE AGAIN
-//                 'is_complete' => 1,
-//             ];
-
-//             UserPaymentJobHistory::create([
-//                 'job_id' => $work_history->job_id,
-//                 'user_id' => $work_history->user_id,
-//                 'date' => $work_history->date,
-//                 'is_payable' => 1,
-//                 'is_paid' => 0,
-//                 'flat_rate' => $work_history->falt_rate,
-//                 'work_history_id' => $work_history->id
-//             ]);
-//         }
-
-//         else {
-//             Session::flash('Alert', [
-//                 'status' => 400,
-//                 'message' => "Invalid check type",
-//             ]);
-//             return back();
-//         }
-
-//         $work_history->update($arr);
-
-//         Session::flash('Alert', [
-//             'status' => 200,
-//             'message' => ucfirst($clock_type)." marked successfully!",
-//         ]);
-
-//         return back();
-
-//     } catch (\Throwable $th) {
-//         throw $th;
-//     }
-// }
-
-
 //new est time based
 public function submit(Request $request)
 {
@@ -356,6 +256,7 @@ public function submit(Request $request)
                 'lat' => $request->lat ?? '',
                 'lon' => $request->lon ?? '',
                 'is_active_shift' => 1, // 🔴 USER BUSY
+                'location_status' => null,
             ];
 
         }
@@ -408,6 +309,50 @@ public function submit(Request $request)
         }
 
         // Update with EST-aware values
+        // compute distance between user and job location (in meters)
+        try {
+            $locationStatus = null;
+            $reqLat = $request->lat ?? null;
+            $reqLon = $request->lon ?? null;
+            $job = null;
+            if (!empty($work_history->job_id)) {
+                $job = Job::where('id', $work_history->job_id)->first();
+            }
+
+            $jobLat = $job->latitude ?? null;
+            $jobLon = $job->longitude ?? null;
+
+            if (is_numeric($reqLat) && is_numeric($reqLon) && is_numeric($jobLat) && is_numeric($jobLon)) {
+                $latFrom = deg2rad((float) $reqLat);
+                $lonFrom = deg2rad((float) $reqLon);
+                $latTo = deg2rad((float) $jobLat);
+                $lonTo = deg2rad((float) $jobLon);
+
+                $latDelta = $latTo - $latFrom;
+                $lonDelta = $lonTo - $lonFrom;
+
+                $a = sin($latDelta / 2) * sin($latDelta / 2) + cos($latFrom) * cos($latTo) * sin($lonDelta / 2) * sin($lonDelta / 2);
+                $c = 2 * asin(min(1, sqrt($a)));
+                $earthRadius = 6371000; // meters
+                $distance = $earthRadius * $c;
+
+                 // ✅ FIXED LOGIC
+                if ($distance <= 200) {
+                    $locationStatus = 'Fair';
+                } else {
+                    $locationStatus = 'Away';
+                }
+
+                // DEBUG
+                // dd($distance);
+            }
+
+            $arr['location_status'] = $locationStatus;
+        } catch (\Throwable $ex) {
+            // on any error, don't break the flow; leave location_status as null
+            $arr['location_status'] = null;
+        }
+
         $work_history->update($arr);
 
         Session::flash('Alert', [
@@ -422,74 +367,41 @@ public function submit(Request $request)
     }
 }
 
-    // function calculateTotalHours($shift_start = null, $shift_end = null)
-    // {
-    //     // If no values are provided, fetch from the current model instance
-    //     if ($shift_start === null || $shift_end === null) {
-    //         $shift_start = $this->shift_start ?? "00:00:00"; // Default to midnight if no value
-    //         $shift_end = $this->shift_end ?? "00:00:00";
-    //     }
-
-    //     // Create Carbon instances
-    //     $start_time = Carbon::createFromFormat('H:i:s', $shift_start);
-    //     $end_time = Carbon::createFromFormat('H:i:s', $shift_end);
-
-    //     // Calculate total minutes
-    //     $totalMinutes = $start_time->diffInMinutes($end_time);
-
-    //     // Convert to hours and minutes
-    //     $hours = floor($totalMinutes / 60);
-    //     $minutes = $totalMinutes % 60;
-
-    //     // Return in a meaningful format
-    //     if ($hours > 0 && $minutes > 0) {
-    //         if ($hours > 1 && $minutes > 1) {
-
-    //             return "$hours hrs $minutes mins";
-    //         } else {
-    //             return "$hours hr $minutes min";
-    //         }
-    //     } elseif ($hours > 0) {
-    //         return "$hours hr";
-    //     } else {
-    //         return "$minutes mins";
-    //     }
-
-    // }
-    
+        
     function calculateTotalHours($shift_start = null, $shift_end = null)
-{
-    // If no values are provided, fetch from the current model instance
-    if ($shift_start === null || $shift_end === null) {
-        $shift_start = $this->shift_start ?? "00:00:00"; // Default to midnight if no value
-        $shift_end = $this->shift_end ?? "00:00:00";
-    }
-
-    // Create Carbon instances in EST timezone
-    // ✅ Existing logic preserved
-    $start_time = Carbon::parse($shift_start)->setTimezone('America/New_York');
-    $end_time = Carbon::parse($shift_end)->setTimezone('America/New_York');
-
-    // Calculate total minutes
-    $totalMinutes = $start_time->diffInMinutes($end_time);
-
-    // Convert to hours and minutes
-    $hours = floor($totalMinutes / 60);
-    $minutes = $totalMinutes % 60;
-
-    // Return in a meaningful format (existing logic fully preserved)
-    if ($hours > 0 && $minutes > 0) {
-        if ($hours > 1 && $minutes > 1) {
-            return "$hours hrs $minutes mins";
-        } else {
-            return "$hours hr $minutes min";
+    {
+        // If no values are provided, fetch from the current model instance
+        if ($shift_start === null || $shift_end === null) {
+            $shift_start = $this->shift_start ?? "00:00:00"; // Default to midnight if no value
+            $shift_end = $this->shift_end ?? "00:00:00";
         }
-    } elseif ($hours > 0) {
-        return "$hours hr";
-    } else {
-        return "$minutes mins";
-    }
-}
 
+        // Create Carbon instances in EST timezone
+        // ✅ Existing logic preserved
+        $start_time = Carbon::parse($shift_start)->setTimezone('America/New_York');
+        $end_time = Carbon::parse($shift_end)->setTimezone('America/New_York');
+
+        // Calculate total minutes
+        $totalMinutes = $start_time->diffInMinutes($end_time);
+
+        // Convert to hours and minutes
+        $hours = floor($totalMinutes / 60);
+        $minutes = $totalMinutes % 60;
+
+        // Return in a meaningful format (existing logic fully preserved)
+        if ($hours > 0 && $minutes > 0) {
+            if ($hours > 1 && $minutes > 1) {
+                return "$hours hrs $minutes mins";
+            } else {
+                return "$hours hr $minutes min";
+            }
+        } elseif ($hours > 0) {
+            return "$hours hr";
+        } else {
+            return "$minutes mins";
+        }
+    }
+
+    
     
 }

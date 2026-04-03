@@ -180,6 +180,24 @@
                 </div>
             </div>
 
+
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="pay-card">
+                <h6 class="w-600">Location Status</h6>
+
+                @if($data->location_status == 'Fair')
+                    <h3 class="perfect-badge mb-0">
+                        {{ $data->location_status ?? '-' }}
+                    </h3>
+                @else
+                    <h3 class="text-danger mb-0">
+                        {{ $data->location_status ?? '-' }}
+                    </h3>
+                @endif
+
+            </div>
+        </div>
+
             {{--
                 <div class="col-lg-3 col-md-6 mb-3">
                     <div class="pay-card">

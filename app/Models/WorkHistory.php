@@ -37,6 +37,7 @@ class WorkHistory extends Model
         'total_due',
         'grand_total',
         'is_allownce_save',
+        'location_status',
     ];
     
      protected static function booted()

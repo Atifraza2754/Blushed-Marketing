@@ -450,43 +450,6 @@ $userTimezone = 'America/New_York'; // EST timezone
 
                     <hr class="sign-line my-3">
 
-                    {{-- <h1 class="f-14 w-700 mb-3">Other Shift Contractor</h1>
-
-                        <div class="satff-div-responsive">
-                            <div class="satff-div">
-
-                                @foreach ($members as $member)
-                                    @if ($member->user->id == Auth::user()->id)
-                                    @else
-                                        <div class="d-flex align-items-center mb-2 shift-staf-row ">
-                                            <div class="dp-div" style="min-width: 150px;">
-                                                <img src="{{ URL::to('/assets/images/Avatar.png') }}" alt=""
-                                                    class="dp-img">
-                                                <div class="ms-2">
-                                                    <h4 class="mb-0 pb-0 ">{{ $member->user->name }}</h4>
-                                                </div>
-                                            </div>
-
-                                            <div class="d-flex align-items-center ">
-                                                @if ($member->status == 'pending')
-                                                    <img src="{{ URL::to('/assets/images/pending.svg') }}" alt=""
-                                                        width="20">
-                                                    <p class="mb-0 pb-0 f-14 w-600 ms-1">Pending</p>
-                                                @elseif ($member->status == 'reject')
-                                                    <img src="{{ URL::to('/assets/images/x-circle.svg') }}"
-                                                        alt="" width="20">
-                                                    <p class="mb-0 pb-0 f-14 w-600 ms-1">Rejected</p>
-                                                @else
-                                                    <img src="{{ URL::to('/assets/images/accepted.svg') }}"
-                                                        alt="" width="20">
-                                                    <p class="mb-0 pb-0 f-14 w-600 ms-1">Accepted</p>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    @endif
-                                @endforeach
-                            </div>
-                        </div> --}}
                 </div>
             </div>
 
@@ -580,18 +543,6 @@ $userTimezone = 'America/New_York'; // EST timezone
 
     let isCaptured = false; // Track whether a picture has been captured
 
-    // Start webcam when modal opens
-    // $("#checkInModal").on("show.bs.modal", function() {
-    //     if ($("#check_type").val() == "check-out") {
-    //         $("#captureBtn").hide();
-    //         $("#retakeBtn").hide();
-    //         $("#camera-container").hide();
-
-    //     } else {
-    //         isCaptured = false;
-    //         startWebcam();
-    //     }
-    // });
 
 
     $("#checkInModal").on("show.bs.modal", function() {
@@ -608,22 +559,7 @@ $userTimezone = 'America/New_York'; // EST timezone
         $("#retakeBtn").hide(); // Hide retake button on close
     });
 
-    // Function to start the webcam
-    // function startWebcam() {
-    //     if ($("#check_type").val() != "check-out") {
 
-    //         Webcam.set({
-    //             width: 400,
-    //             height: 300,
-    //             image_format: "png",
-    //             jpeg_quality: 90,
-    //         });
-
-    //         Webcam.attach("#camera-container");
-    //         $("#captureBtn").show();
-    //         $("#retakeBtn").hide();
-    //     }
-    // }
 
     function startWebcam() {
 
@@ -703,52 +639,7 @@ $userTimezone = 'America/New_York'; // EST timezone
         })
     }
 
-    // $(".check_in_btn").click(function() {
-    //     var type = $(this).attr('data-checkType');
-    //     // console.log
-    //     checkLocation(function(location) {
 
-    //         var lat = location ? location.latitude : 'w';
-    //         var lon = location ? location.longitude : 'w';
-
-    //         if (lat != null && lon != null) {
-    //             distance = checkDistance(lat, lon);
-    //             // if (distance <= 15) {
-    //             if (distance <= 15) {
-    //                 $("#lat").val(lat);
-    //                 $("#lon").val(lon);
-
-    //                 // if (type == 'check-in') {
-
-    //                     $(".check_in_div").removeClass('d-none');
-    //                     $("#check_in_input").prop('disabled', false);
-
-    //                 } else {
-
-    //                     $(".check_in_div").addClass('d-none');
-    //                     $(".check_out_div").removeClass('d-none');
-    //                     $("#check_out_input").prop('disabled', false);
-    //                 }
-
-    //                 $('.validation')
-    //                     .text('Your location is valid')
-    //                     .css('color', 'green');
-    //                 $('#check_type').val(type);
-
-    //                 $("#checkInModal").modal("show");
-    //                 $(".check_in_confirm_btn").prop('disabled', false);
-    //             // } else {
-    //             //     $('.validation')
-    //             //         .text('You are not in Targeted Location')
-    //             //         .css('color', 'red');
-    //             //     $("#checkInModal").modal("show");
-    //             //     $(".check_in_confirm_btn").prop('disabled', true);
-
-    //             // }
-
-    //         }
-    //     });
-    // });
 
 $(".check_in_btn").click(function() {
     var type = $(this).attr('data-checkType');
